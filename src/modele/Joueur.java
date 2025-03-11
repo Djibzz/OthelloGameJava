@@ -32,4 +32,8 @@ public class Joueur {
 
     public void gagne(){NbPartiesgagnés++;}
 
+    public boolean equals(Joueur j){
+
+    }
+
 }
