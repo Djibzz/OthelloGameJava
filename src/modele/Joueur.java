@@ -5,11 +5,13 @@ public class Joueur {
     private String Pseudo;
     private  int NbPartiesgagnés;
 
+    private int nbPions;
 
 
     public Joueur(String Pseudo){
         this.Pseudo = Pseudo ;
         NbPartiesgagnés = 0;
+        nbPions=30;
     }
 
     //Les Accesseurs
@@ -26,8 +28,8 @@ public class Joueur {
         return NbPartiesgagnés;
     }
 
-    public void setNbPartiesgagnés(int nbPartiesgagnés) {
-        NbPartiesgagnés = nbPartiesgagnés;
-    }
+    public int getNbPions() {return nbPions;}
+
+    public void gagne(){NbPartiesgagnés++;}
 
 }
