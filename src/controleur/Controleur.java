@@ -1,5 +1,5 @@
 package controleur;
-
+/**
 public class Controleur {
     private Ihm ihm;
     private Partie partie;
@@ -9,4 +9,4 @@ public class Controleur {
     public void jouer() { }
 }
 
-
+**/
