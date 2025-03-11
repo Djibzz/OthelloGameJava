@@ -61,7 +61,21 @@ public class Partie {
         }
     }
 
-    public boolean coupValide(String coup) { }
+    public boolean coupValide(String coup) {
+        int[] coords = plateau.inputVersCoordonnes(coup);
+        int ligne = coords[0], colonne = coords[1];
+
+        // Vérifier si la case est vide
+        if (!plateau.getTableau()[ligne][colonne].equals("\uD83D\uDFE9")) {
+            return false; // Case déjà occupée
+        }
+
+        // Vérifier si un pion adverse est adjacent et si un encadrement est possible
+        return peutRetournerPions(ligne, colonne);
+    }
+    private boolean peutRetournerPions(int ligne, int colonne) {
+        String couleurJoueur = (joueurCourant.equals(joueurs[0])) ? Noir : Blanc;
+        String couleurAdverse = (couleurJoueur.equals(Noir)) ? Blanc : Noir;
 
     public void jouerCoup(String coup) { }
 
