@@ -31,7 +31,7 @@ public class Plateau {
 
     public int lettreVersColonne(String s){
         String[] Alphabet = {"A", "B", "C", "D", "E", "F", "G", "H"};
-        for (int i =0;i<= Alphabet.length;i++){
+        for (int i =0;i< Alphabet.length;i++){
            if(s.equals( Alphabet[i]))
                return i;
         }

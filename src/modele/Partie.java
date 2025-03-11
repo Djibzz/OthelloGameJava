@@ -30,6 +30,7 @@ public class Partie {
         joueurs[0]= joueur1;
         joueurs[1]= joueur2;
         PartieFinie =false;
+        plateau=new Plateau();
     }
 
     public Joueur gagnant(){
@@ -60,6 +61,9 @@ public class Partie {
         }
     }
 
+    public boolean coupValide(String coup) { }
+
+    public void jouerCoup(String coup) { }
 
 
 
