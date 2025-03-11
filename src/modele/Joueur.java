@@ -5,6 +5,13 @@ public class Joueur {
     private String Pseudo;
     private  int NbPartiesgagnés;
 
+
+
+    public Joueur(String Pseudo){
+        this.Pseudo = Pseudo ;
+        NbPartiesgagnés = 0;
+    }
+
     //Les Accesseurs
 
     public String getPseudo() {
