@@ -2,7 +2,6 @@ package controleur;
 
 import modele.Joueur;
 import modele.Partie;
-import modele.Plateau;
 import vue.Ihm;
 
 public class Controleur {
@@ -32,12 +31,17 @@ public class Controleur {
 
                 do {
                     coup = ihm.demanderCoup(partie.getJoueurCourant().getPseudo());
-                    coupValide = partie.coupValide(coup);
-                    if (!coupValide) {
-                        if(coup.equalsIgnoreCase("P"))
-                            ihm.afficherMessage("Impossible de passer son tour  car vous pouvez encore jouer! Veuillez entrer un coup valide.");
-                        else
-                            ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                    try {
+                        coupValide = partie.coupValide(coup);  // Cette méthode peut lancer une exception
+                        if (!coupValide) {
+                            if (coup.equalsIgnoreCase("P"))
+                                ihm.afficherMessage("Impossible de passer son tour car vous pouvez encore jouer! Veuillez entrer un coup valide.");
+                            else
+                                ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        ihm.afficherMessage("Erreur dans la saisie : " + e.getMessage());
+                        coupValide = false;  // Reste dans la boucle tant que la saisie est invalide
                     }
                 } while (!coupValide);
 
