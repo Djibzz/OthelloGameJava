@@ -195,6 +195,7 @@ public class Partie {
                         y += dy;
                     }
                 }
+                LejoueurSuivant(joueurCourant);
             }
 
 

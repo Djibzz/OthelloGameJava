@@ -28,15 +28,20 @@ public class Controleur {
 
             if (partie.peutJouer(partie.getJoueurCourant())) {
                 String coup;
+                boolean coupValide;
+
                 do {
                     coup = ihm.demanderCoup(partie.getJoueurCourant().getPseudo());
-                } while (!partie.coupValide(coup));
+                    coupValide = partie.coupValide(coup);
+                    if (!coupValide) {
+                        ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                    }
+                } while (!coupValide);
 
                 partie.jouerCoup(coup);
             } else {
                 ihm.afficherMessage(partie.getJoueurCourant().getPseudo() + " ne peut pas jouer et passe son tour.");
             }
-
             // Change de joueur après chaque tour
             partie.setJoueurCourant(partie.LejoueurSuivant(partie.getJoueurCourant()));
         }
