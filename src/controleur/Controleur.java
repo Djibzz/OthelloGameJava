@@ -13,50 +13,48 @@ public class Controleur {
     }
 
     public void jouerPartie() {
-        Joueur joueur1 = new Joueur("Joueur 1");
-        Joueur joueur2 = new Joueur("Joueur 2");
+        boolean rejouer;
+        do {
+            Joueur joueur1 = new Joueur("Joueur 1");
+            Joueur joueur2 = new Joueur("Joueur 2");
 
-        ihm.demanderNom(joueur1, joueur2);
+            ihm.demanderNom(joueur1, joueur2);
+            partie = new Partie(joueur1, joueur2);
 
-        partie = new Partie(joueur1, joueur2);
+            while (!partie.partieEstFinie()) {
+                ihm.afficherPlateau(partie.getPlateau());
+                ihm.afficherJoueurCourant(partie.getJoueurCourant());
 
-        // La boucle continue tant que la partie n'est pas finie.
-        while (!partie.partieEstFinie()) {  // Appelle la méthode partieEstFinie() sur l'objet partie
-            ihm.afficherPlateau(partie.getPlateau());
-            ihm.afficherJoueurCourant(partie.getJoueurCourant());
-
-            if (partie.peutJouer(partie.getJoueurCourant())) {
-                String coup;
-                boolean coupValide;
-
-                do {
-                    coup = ihm.demanderCoup(partie.getJoueurCourant().getPseudo());
-                    try {
-                        coupValide = partie.coupValide(coup);  // Cette méthode peut lancer une exception
-                        if (!coupValide) {
-                            if (coup.equalsIgnoreCase("P"))
-                                ihm.afficherMessage("Impossible de passer son tour car vous pouvez encore jouer! Veuillez entrer un coup valide.");
-                            else
-                                ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                if (partie.peutJouer(partie.getJoueurCourant())) {
+                    String coup;
+                    boolean coupValide;
+                    do {
+                        coup = ihm.demanderCoup(partie.getJoueurCourant().getPseudo());
+                        try {
+                            coupValide = partie.coupValide(coup);
+                            if (!coupValide) {
+                                if (coup.equalsIgnoreCase("P"))
+                                    ihm.afficherMessage("Impossible de passer son tour car vous pouvez encore jouer! Veuillez entrer un coup valide.");
+                                else
+                                    ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                            }
+                        } catch (IllegalArgumentException e) {
+                            ihm.afficherMessage("Erreur dans la saisie : " + e.getMessage());
+                            coupValide = false;
                         }
-                    } catch (IllegalArgumentException e) {
-                        ihm.afficherMessage("Erreur dans la saisie : " + e.getMessage());
-                        coupValide = false;  // Reste dans la boucle tant que la saisie est invalide
-                    }
-                } while (!coupValide);
-
-                partie.jouerCoup(coup);
-            } else {
-                ihm.afficherMessage(partie.getJoueurCourant().getPseudo() + " ne peut pas jouer et passe son tour.");
+                    } while (!coupValide);
+                    partie.jouerCoup(coup);
+                } else {
+                    ihm.afficherMessage(partie.getJoueurCourant().getPseudo() + " ne peut pas jouer et passe son tour.");
+                }
+                partie.setJoueurCourant(partie.LejoueurSuivant());
             }
-            // Change de joueur après chaque tour
-            partie.setJoueurCourant(partie.LejoueurSuivant());
-        }
-
-        afficherResultat();  // Afficher le résultat de la partie une fois terminée.
+            afficherResultat();
+            rejouer = ihm.demanderRejouer();
+        } while (rejouer);
+        ihm.fermerScanner();
     }
 
-    // Méthode pour afficher le résultat final de la partie.
     public void afficherResultat() {
         Joueur gagnant = partie.gagnantdelaPartie();
         if (gagnant != null) {

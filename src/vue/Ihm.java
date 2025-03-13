@@ -66,6 +66,17 @@ public class Ihm {
         public void afficherMessage(String message) {
             System.out.println(message);
         }
+
+
+
+    // Demander aux joueurs s'ils veulent rejouer
+    public boolean demanderRejouer() {
+        System.out.println("Voulez-vous rejouer ? (O/N)");
+        String reponse = scanner.nextLine().toLowerCase();
+
+        return reponse.equals("o"); // Comparaison en minuscule
+    }
+
     // Fermer le scanner proprement
     public void fermerScanner() { scanner.close(); }
 }
