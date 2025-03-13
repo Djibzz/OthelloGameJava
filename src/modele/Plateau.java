@@ -47,19 +47,24 @@ public class Plateau {
         }
         throw new IllegalArgumentException("Lettre invalide : " + s);
     }
-    public int[] inputVersCoordonnes(String s){
+    public int[] inputVersCoordonnes(String s) {
+        if (s.equalsIgnoreCase("P"))
+            return new int[]{-1, -1}; // Indique que le joueur veut passer
         if (s.length() < 2)
             throw new IllegalArgumentException("Format invalide : " + s);
-
         // Vérification que le premier caractère est un entier
         int ligne;
         try {
-            ligne = Integer.parseInt(s.substring(0, 1)); // Essaye de convertir le premier caractère en entier
+            ligne = Integer.parseInt(s.substring(0, 1));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Le premier caractère doit être un entier : " + s, e);
         }
-        int colonne = lettreVersColonne(s.substring(1)); //Convertit la lettre en index de colonne
-        return new int[]{ligne, colonne};
+        int colonne = lettreVersColonne(s.substring(1));
+        // Vérification des limites
+        if (ligne < 1 || ligne > 8 || colonne < 0 || colonne > 7) {
+            throw new IllegalArgumentException("Coordonnées hors limites : " + s);
+        }
+        return new int[]{ligne - 1, colonne}; // Ajustement (lignes 1-8 → index 0-7)
     }
 
 

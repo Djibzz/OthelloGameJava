@@ -32,8 +32,20 @@ public class Joueur {
 
     public void gagne(){NbPartiesgagnés++;}
 
-    public boolean equals(Joueur j){
+    public boolean equals(Object  obj){
+        if (obj == null)
+            return false;
+        if (obj.getClass() != this.getClass())
+            return false;
+        final Joueur j = (Joueur) obj;
+        if ((this.getPseudo() == null) ? (j.getPseudo() != null) : !this.getPseudo().equals(j.getPseudo()))
+            return false;
+        if (this.getNbPartiesgagnés() != j.getNbPartiesgagnés())
+            return false;
+        if (this.getNbPions() != j.getNbPions())
+            return false;
 
+        return true;
     }
 
 }
