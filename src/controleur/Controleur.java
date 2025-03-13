@@ -49,18 +49,29 @@ public class Controleur {
                 }
                 partie.setJoueurCourant(partie.LejoueurSuivant());
             }
-            afficherResultat();
+            afficherResultatpartie();
             rejouer = ihm.demanderRejouer();
         } while (rejouer);
+        afficherResultat();
         ihm.fermerScanner();
     }
 
-    public void afficherResultat() {
+    public void afficherResultatpartie() {
         Joueur gagnant = partie.gagnantdelaPartie();
         if (gagnant != null) {
             ihm.afficherMessage("Le gagnant de la partie est : " + gagnant.getPseudo());
         } else {
             ihm.afficherMessage("La partie se termine sur un match nul !");
+        }
+    }
+    public void afficherResultat() {
+        Joueur gagnant = partie.gagnant();
+        Joueur perdant =(gagnant.equals(partie.getJoueurs()[0])) ? partie.getJoueurs()[1]: partie.getJoueurs()[0];
+        if (gagnant != null) {
+            ihm.afficherMessage("Le gagnant de  est : " + gagnant.getPseudo()+" avec un score de "+ gagnant.getNbPartiesgagnés()+" Le perdant est "+
+                    perdant.getPseudo()+" avec un score de "+ perdant.getNbPartiesgagnés());
+        } else {
+            ihm.afficherMessage("Ex aequo  !");
         }
     }
 }

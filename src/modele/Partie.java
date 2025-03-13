@@ -135,7 +135,7 @@ public class Partie {
     public boolean peutJouer(Joueur joueur) {
         for (int ligne = 1; ligne <= 8; ligne++) { // Lignes de 1 à 8
             for (char colonne = 'A'; colonne <= 'H'; colonne++) { // Colonnes de A à H
-                String coup = ligne + "" + colonne; // Ex: "3C"
+                String coup = ligne + "" + colonne; //
                 if (coupValide(coup)) {
                     return true; // Le joueur a au moins un coup valide
                 }
