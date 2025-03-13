@@ -1,6 +1,7 @@
 package vue;
 
 import modele.Joueur;
+import modele.Partie;
 import modele.Plateau;
 
 import java.util.Scanner;
@@ -24,15 +25,47 @@ public class Ihm {
 
     // Afficher le plateau de jeu
     public void afficherPlateau(Plateau plateau) {
-        Plateau.afficherPlateau();
+        System.out.println("   A  B  C  D   E  F  G  H  ");
+        for (int i = 0; i < 8; i++) {
+            System.out.print((i + 1) + " ");
+            for (int j = 0; j < 8; j++) {
+                System.out.print(plateau.getTableau()[i][j] + " ");
+            }
+            System.out.println();
+        }
+    } // Afficher le joueur courant
+    public void afficherJoueurCourant(Joueur joueur) {
+        System.out.println("C'est au tour de " + joueur.getPseudo() + " de jouer.");
     }
 
+    // Afficher les scores (pions capturés et parties gagnées)
+    public void afficherScores(Partie partie) {
+        int scoreNoir = 0, scoreBlanc = 0;
+        // Parcours du tableau pour compter les pions noirs et blancs
+        for (String[] ligne : partie.getPlateau().getTableau()) {
+            for (String pion : ligne) {
+                if (pion.equals("⚫")) {  // Pion noir
+                    scoreNoir++;
+                } else if (pion.equals("⚪")) {  // Pion blanc
+                    scoreBlanc++;
+                }
+            }
+        }
+
+        System.out.println("Score actuel :");
+        System.out.println("Noir (joueur " + partie.getJoueurs()[0].getPseudo() + ") = " + scoreNoir + " pions | Parties gagnées = " + partie.getJoueurs()[0].getNbPartiesgagnés());
+        System.out.println("Blanc (joueur " + partie.getJoueurs()[1].getPseudo() + ") = " + scoreBlanc + " pions | Parties gagnées = " + partie.getJoueurs()[1].getNbPartiesgagnés());
+    }
     // Demander un coup au joueur
-    public String demanderCoup(String nomJoueur) { }
+    public String demanderCoup(String nomJoueur) {
+        System.out.println(nomJoueur + ", entrez votre coup (ex: 3C) ou 'P' pour passer : ");
+        return scanner.nextLine().toUpperCase();
+    }
 
-    // Afficher un message
-    public void afficherMessage(String message) { }
-
+        // Afficher un message
+        public void afficherMessage(String message) {
+            System.out.println(message);
+        }
     // Fermer le scanner proprement
     public void fermerScanner() { scanner.close(); }
 }

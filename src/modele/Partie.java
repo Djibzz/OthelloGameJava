@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.Controleur;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class Partie {
         return joueurCourant;
     }
 
+    public Joueur[] getJoueurs() {
+        return joueurs;
+    }
 
     public Plateau getPlateau() {
         return plateau;
@@ -145,6 +149,24 @@ public class Partie {
         return false;
 
     }
+    public boolean partieEstFinie() {
+        // Vérifier si les deux joueurs ne peuvent plus jouer
+        boolean aucunCoupValide = !peutJouer(joueurs[0]) && !peutJouer(joueurs[1]);
+
+        // Vérifier si le plateau est plein
+        boolean plateauPlein = true;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (plateau.getTableau()[i][j].equals("\uD83D\uDFE9")) { // Si une case est vide
+                    plateauPlein = false;
+                    break;
+                }
+            }
+        }
+
+        // La partie est finie si le plateau est plein ou si aucun joueur ne peut jouer
+        return plateauPlein || aucunCoupValide;
+    }
 
     public void jouerCoup(String coup) {
         if (!Passersontour(coup)) {
@@ -154,6 +176,7 @@ public class Partie {
                 List<int[]> lesEncadrements = getEncadrements(ligne, colonne);
                 String couleurJoueur = (joueurCourant.equals(joueurs[0])) ? Noir : Blanc;
                 String couleurAdverse = (couleurJoueur.equals(Noir)) ? Blanc : Noir;
+                plateau.getTableau()[ligne][colonne]= couleurJoueur;
 
                 for (int[] dir : lesEncadrements) {
                     int dx = dir[0], dy = dir[1];
@@ -164,7 +187,7 @@ public class Partie {
                         if (caseActuelle.equals("\uD83D\uDFE9"))  // Case vide = arrêt
                             break;
                         if (caseActuelle.equals(couleurAdverse)) {
-                            caseActuelle = couleurJoueur;
+                            tableau[x][y]= couleurJoueur;
                         }
                         if (caseActuelle.equals(couleurJoueur))  // Case couleur du joueur = arrêt
                             break;

@@ -6,7 +6,7 @@ public class Plateau {
      * données utilisable par le jeu Ex::l"User ecrit 2H ca va nous rendre un int[2]={1,7}
      **/
     private static final int taille = 8; // Taille du plateau 8x8
-    private String [][] tableau;
+    private static String [][] tableau;
 
     public String [][] getTableau() {
         return tableau;
