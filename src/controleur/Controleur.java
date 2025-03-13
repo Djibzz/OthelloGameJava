@@ -34,7 +34,10 @@ public class Controleur {
                     coup = ihm.demanderCoup(partie.getJoueurCourant().getPseudo());
                     coupValide = partie.coupValide(coup);
                     if (!coupValide) {
-                        ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                        if(coup.equalsIgnoreCase("P"))
+                            ihm.afficherMessage("Impossible de passer son tour ! Veuillez entrer un coup valide.");
+                        else
+                            ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
                     }
                 } while (!coupValide);
 

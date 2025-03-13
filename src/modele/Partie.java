@@ -79,6 +79,11 @@ public class Partie {
         int[] coords = plateau.inputVersCoordonnes(coup);
         int ligne = coords[0], colonne = coords[1];
 
+        if(ligne == -1&&colonne==-1 ) {
+            if(!peutJouer(joueurCourant))
+                LejoueurSuivant(joueurCourant);
+            return false;
+        }
         // Vérifier si la case est vide
         if (!plateau.getTableau()[ligne][colonne].equals("\uD83D\uDFE9")) {
             return false; // Case déjà occupée
@@ -143,7 +148,6 @@ public class Partie {
         int[] coords = plateau.inputVersCoordonnes(coup);
         //Vérifier si le joueur n'as pas passé son tour
         if (coords.equals(new int[]{-1, -1})) {
-            LejoueurSuivant(joueurCourant);
             return true;
         }
         return false;
@@ -195,7 +199,6 @@ public class Partie {
                         y += dy;
                     }
                 }
-                LejoueurSuivant(joueurCourant);
             }
 
 
