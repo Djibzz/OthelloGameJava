@@ -35,7 +35,7 @@ public class Controleur {
                     coupValide = partie.coupValide(coup);
                     if (!coupValide) {
                         if(coup.equalsIgnoreCase("P"))
-                            ihm.afficherMessage("Impossible de passer son tour ! Veuillez entrer un coup valide.");
+                            ihm.afficherMessage("Impossible de passer son tour  car vous pouvez encore jouer! Veuillez entrer un coup valide.");
                         else
                             ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
                     }
@@ -46,7 +46,7 @@ public class Controleur {
                 ihm.afficherMessage(partie.getJoueurCourant().getPseudo() + " ne peut pas jouer et passe son tour.");
             }
             // Change de joueur après chaque tour
-            partie.setJoueurCourant(partie.LejoueurSuivant(partie.getJoueurCourant()));
+            partie.setJoueurCourant(partie.LejoueurSuivant());
         }
 
         afficherResultat();  // Afficher le résultat de la partie une fois terminée.

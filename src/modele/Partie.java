@@ -27,7 +27,7 @@ public class Partie {
         return plateau;
     }
 
-    public Joueur LejoueurSuivant(Joueur j) {
+    public Joueur LejoueurSuivant() {
         if (joueurCourant.equals(joueurs[0])) {
             return joueurs[1];
         } else return joueurs[0];
@@ -71,7 +71,7 @@ public class Partie {
             return joueurs[0];
         } else {
             joueurs[1].gagne();
-            return joueurs[0];
+            return joueurs[1];
         }
     }
 
@@ -81,7 +81,7 @@ public class Partie {
 
         if(ligne == -1&&colonne==-1 ) {
             if(!peutJouer(joueurCourant))
-                LejoueurSuivant(joueurCourant);
+                setJoueurCourant(LejoueurSuivant());
             return false;
         }
         // Vérifier si la case est vide
@@ -147,10 +147,7 @@ public class Partie {
     public boolean Passersontour(String coup) {
         int[] coords = plateau.inputVersCoordonnes(coup);
         //Vérifier si le joueur n'as pas passé son tour
-        if (coords.equals(new int[]{-1, -1})) {
-            return true;
-        }
-        return false;
+        return coords[0] == -1 && coords[1] == -1;
 
     }
     public boolean partieEstFinie() {
