@@ -18,7 +18,7 @@ public class Controleur {
         Joueur joueur1 = new Joueur("Joueur 1");
         Joueur joueur2;
         if(choix.equalsIgnoreCase("IA")) {
-            joueur2 = new Joueur("Joueur IA");
+            joueur2 = new JoueurIA("Joueur IA");
             ihm.demanderNom(joueur1, joueur2);
             partie = new Partie(joueur1, joueur2);
         }else{
