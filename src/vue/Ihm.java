@@ -79,10 +79,10 @@ public class Ihm {
         return reponse.equals("o"); // Comparaison en minuscule
     }
 
-    // Méthode pour demander le type de jeu (contre IA ou 2 joueurs)
-    public String demanderTypeDeJeu() {
+    public String demanderTypedeJeu(){
+        // Méthode pour demander le type de jeu (contre IA ou 2 joueurs)
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Souhaitez-vous jouer contre l'IA ou à 2 joueurs ? (Tapez 'IA' ou '2')");
+        System.out.println("Voulez vous jouer contre contre l'IA ou un joueur 2 , Taper 'IA' ou 'J2'");
         String choix = scanner.nextLine();
         while (!choix.equalsIgnoreCase("IA") && !choix.equals("2")) {
             System.out.println("Choix invalide. Tapez 'IA' pour jouer contre l'IA ou '2' pour jouer à 2.");
@@ -90,24 +90,6 @@ public class Ihm {
         }
         return choix;
     }
-
-    public String demanderTypeJeu(){
-        // Méthode pour demander le type de jeu (contre IA ou 2 joueurs)
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Voulez vous jouer contre contre l'IA ou un joueur 2 , Taper 'IA' ou 'J2'");
-        String.choix = scanner.nextLine();
-        while (!choix.equalsIgnoreCase("IA") && !choix.equals("2")) {
-            System.out.println("Choix invalide. Tapez 'IA' pour jouer contre l'IA ou '2' pour jouer à 2.");
-            choix = scanner.nextLine();
-        }
-        return choix;
-    }
-
-
-
-
-    }
-
 
     // Fermer le scanner proprement
     public void fermerScanner() { scanner.close(); }
