@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.Joueur;
+import modele.JoueurIA;
 import modele.Partie;
 import vue.Ihm;
 
@@ -16,11 +17,11 @@ public class Controleur {
         String choix = ihm.demanderTypedeJeu();
         Joueur joueur1 = new Joueur("Joueur 1");
         Joueur joueur2;
-        if(choix.equalsIgnoreCase("IA"))
+        if(choix.equalsIgnoreCase("IA")) {
             joueur2 = new Joueur("Joueur IA");
-        ihm.demanderNom(joueur1, joueur2);
-        partie = new Partie(joueur1, joueur2);
-        else{
+            ihm.demanderNom(joueur1, joueur2);
+            partie = new Partie(joueur1, joueur2);
+        }else{
             joueur2 = new Joueur("Joueur 2");
             ihm.demanderNom(joueur1, joueur2);
             partie = new Partie(joueur1, joueur2);
@@ -36,25 +37,31 @@ public class Controleur {
                 ihm.afficherJoueurCourant(partie.getJoueurCourant());
 
                 if (partie.peutJouer(partie.getJoueurCourant())) {
-                    String coup;
-                    boolean coupValide;
-                    do {
-                        coup = ihm.demanderCoup(partie.getJoueurCourant().getPseudo());
-                        try {
-                            coupValide = partie.coupValide(coup);
-                            if (!coupValide) {
-                                if (coup.equalsIgnoreCase("P"))
-                                    ihm.afficherMessage("Impossible de passer son tour car vous pouvez encore jouer! Veuillez entrer un coup valide.");
-                                else
-                                    ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                    if(partie.getJoueurCourant() instanceof JoueurIA) {
+                        JoueurIA ia = (JoueurIA) partie.getJoueurCourant();
+                        ia.jouerCoup(partie);
+                        ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement.");
+                    }else {
+                        String coup;
+                        boolean coupValide;
+                        do {
+                            coup = ihm.demanderCoup(partie.getJoueurCourant().getPseudo());
+                            try {
+                                coupValide = partie.coupValide(coup);
+                                if (!coupValide) {
+                                    if (coup.equalsIgnoreCase("P"))
+                                        ihm.afficherMessage("Impossible de passer son tour car vous pouvez encore jouer! Veuillez entrer un coup valide.");
+                                    else
+                                        ihm.afficherMessage("Coup invalide ! Veuillez entrer un coup valide.");
+                                }
+                            } catch (IllegalArgumentException e) {
+                                ihm.afficherMessage("Erreur dans la saisie : " + e.getMessage());
+                                coupValide = false;
                             }
-                        } catch (IllegalArgumentException e) {
-                            ihm.afficherMessage("Erreur dans la saisie : " + e.getMessage());
-                            coupValide = false;
-                        }
-                    } while (!coupValide);
-                    partie.jouerCoup(coup);
-                } else {
+                        } while (!coupValide);
+                        partie.jouerCoup(coup);
+                    }
+                    } else {
                     ihm.afficherMessage(partie.getJoueurCourant().getPseudo() + " ne peut pas jouer et passe son tour.");
                 }
                 partie.setJoueurCourant(partie.LejoueurSuivant());
