@@ -12,15 +12,25 @@ public class Controleur {
         this.ihm = new Ihm();
     }
 
+    public void demanderTypedeJeu(){  // True = IA False = Joueur 2
+        String choix = ihm.demanderTypedeJeu();
+        Joueur joueur1 = new Joueur("Joueur 1");
+        Joueur joueur2;
+        if(choix.equalsIgnoreCase("IA"))
+            joueur2 = new Joueur("Joueur IA");
+        ihm.demanderNom(joueur1, joueur2);
+        partie = new Partie(joueur1, joueur2);
+        else{
+            joueur2 = new Joueur("Joueur 2");
+            ihm.demanderNom(joueur1, joueur2);
+            partie = new Partie(joueur1, joueur2);
+        }
+    }
+
     public void jouerPartie() {
         boolean rejouer;
         do {
-            Joueur joueur1 = new Joueur("Joueur 1");
-            Joueur joueur2 = new Joueur("Joueur 2");
-
-            ihm.demanderNom(joueur1, joueur2);
-            partie = new Partie(joueur1, joueur2);
-
+            demanderTypedeJeu();
             while (!partie.partieEstFinie()) {
                 ihm.afficherPlateau(partie.getPlateau());
                 ihm.afficherJoueurCourant(partie.getJoueurCourant());

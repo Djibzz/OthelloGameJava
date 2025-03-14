@@ -1,6 +1,7 @@
 package vue;
 
 import modele.Joueur;
+import modele.JoueurIA;
 import modele.Partie;
 import modele.Plateau;
 
@@ -17,9 +18,10 @@ public class Ihm {
     public void demanderNom(Joueur joueur1, Joueur joueur2) {
         System.out.println("Joueur 1, veuillez saisir votre nom :");
         joueur1.setPseudo(scanner.nextLine());
-
-        System.out.println("Joueur 2, veuillez saisir votre nom :");
-        joueur2.setPseudo(scanner.nextLine());
+        if (!(joueur2 instanceof JoueurIA)) {
+            System.out.println("Joueur 2, veuillez saisir votre nom :");
+            joueur2.setPseudo(scanner.nextLine());
+        }
     }
 
 
