@@ -84,7 +84,7 @@ public class Ihm {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Voulez vous jouer contre contre l'IA ou un joueur 2 , Taper 'IA' ou 'J2'");
         String choix = scanner.nextLine();
-        while (!choix.equalsIgnoreCase("IA") && !choix.equals("2")) {
+        while (!choix.equalsIgnoreCase("IA") && !choix.equalsIgnoreCase("J2")) {
             System.out.println("Choix invalide. Tapez 'IA' pour jouer contre l'IA ou 'J2' pour jouer à 2.");
             choix = scanner.nextLine();
         }

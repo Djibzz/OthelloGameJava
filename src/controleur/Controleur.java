@@ -39,8 +39,8 @@ public class Controleur {
                 if (partie.peutJouer(partie.getJoueurCourant())) {
                     if(partie.getJoueurCourant() instanceof JoueurIA) {
                         JoueurIA ia = (JoueurIA) partie.getJoueurCourant();
-                        ia.jouerCoup(partie);
-                        ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement.");
+                        String coupIA = ia.jouerCoup(partie);
+                        ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement sur la case " + coupIA);
                     }else {
                         String coup;
                         boolean coupValide;

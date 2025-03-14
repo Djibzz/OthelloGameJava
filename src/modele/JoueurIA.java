@@ -30,7 +30,7 @@ public class JoueurIA extends Joueur {
         return obtenirCoupsValides(partie).get(rand_int);
     }
 
-    public void jouerCoup(Partie partie) {
+    public String jouerCoup(Partie partie) {
         String coup = choisircoup(partie);
         if (coup != null) {
             partie.jouerCoup(coup);
@@ -38,6 +38,7 @@ public class JoueurIA extends Joueur {
             // Si l'IA ne peut pas jouer, elle passe son tour
             partie.jouerCoup("P");
         }
+        return coup;
     }
 
 }
