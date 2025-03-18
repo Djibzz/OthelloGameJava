@@ -28,16 +28,6 @@ public class Plateau {
         tableau[4][3] = "⚫"; // Noir
         tableau[4][4] = "⚪"; // Blanc
     }
-    // Affichage du plateau
-    public void afficherPlateau() {
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
-                System.out.print(tableau[i][j] + " ");
-            }
-            System.out.println(); // Retour à la ligne
-        }
-    }
-
 
     public int lettreVersColonne(String s){
         String[] Alphabet = {"A", "B", "C", "D", "E", "F", "G", "H"};
