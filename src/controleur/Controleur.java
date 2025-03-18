@@ -2,6 +2,7 @@ package controleur;
 
 import modele.Joueur;
 import modele.JoueurIA;
+import modele.JoueurIAFort;
 import modele.Partie;
 import vue.Ihm;
 
@@ -18,9 +19,16 @@ public class Controleur {
         Joueur joueur1 = new Joueur("Joueur 1");
         Joueur joueur2;
         if(choix.equalsIgnoreCase("IA")) {
-            joueur2 = new JoueurIA("Joueur IA");
-            ihm.demanderNom(joueur1, joueur2);
-            partie = new Partie(joueur1, joueur2);
+            String choixIA = ihm.demanderTypeIA();
+            if(choixIA.equalsIgnoreCase("fort")) {
+                joueur2 = new JoueurIAFort("Joueur IA intélligent");
+                ihm.demanderNomIA(joueur1);
+                partie = new Partie(joueur1, joueur2);
+            }else {
+                joueur2 = new JoueurIA("Joueur IA Naif");
+                ihm.demanderNomIA(joueur1);
+                partie = new Partie(joueur1, joueur2);
+            }
         }else{
             joueur2 = new Joueur("Joueur 2");
             ihm.demanderNom(joueur1, joueur2);
@@ -37,11 +45,16 @@ public class Controleur {
                 ihm.afficherJoueurCourant(partie.getJoueurCourant());
 
                 if (partie.peutJouer(partie.getJoueurCourant())) {
-                    if(partie.getJoueurCourant() instanceof JoueurIA) {
+                    if(partie.getJoueurCourant() instanceof JoueurIA ) {
                         JoueurIA ia = (JoueurIA) partie.getJoueurCourant();
                         String coupIA = ia.jouerCoup(partie);
                         ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement sur la case " + coupIA);
-                    }else {
+                    }
+                    else if (partie.getJoueurCourant() instanceof JoueurIAFort) {
+                        JoueurIA ia = (JoueurIAFort) partie.getJoueurCourant();
+                        String coupIA = ia.jouerCoup(partie);
+                        ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement sur la case " + coupIA);
+                    } else {
                         String coup;
                         boolean coupValide;
                         do {

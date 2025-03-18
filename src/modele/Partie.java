@@ -10,7 +10,6 @@ public class Partie {
     private Joueur joueurCourant;
     private Joueur[] joueurs = new Joueur[2];
     private Plateau plateau;
-    private boolean PartieFinie;
     private static final String Noir = "⚫";
     private static final String Blanc = "⚪";
 
@@ -21,6 +20,10 @@ public class Partie {
 
     public Joueur[] getJoueurs() {
         return joueurs;
+    }
+
+    public void setPlateau(Plateau plateau) {
+        this.plateau = plateau;
     }
 
     public Plateau getPlateau() {
@@ -41,7 +44,6 @@ public class Partie {
         this.joueurCourant = joueur1;
         joueurs[0] = joueur1;
         joueurs[1] = joueur2;
-        PartieFinie = false;
         plateau = new Plateau();
     }
 
@@ -201,6 +203,72 @@ public class Partie {
 
         }
     }
+
+
+    // Methodes créées pour l'Algorithme MiniMAX elle ne dépende pas du joueur Courant mais de la couleur en paramètre
+    public boolean coupValidePour(String coup, String couleurJoueur) {
+        int[] coords = plateau.inputVersCoordonnes(coup);
+        int ligne = coords[0], colonne = coords[1];
+
+        if (ligne == -1 && colonne == -1) {
+            return false; // On ne considère pas le passage de tour ici
+        }
+
+        // Vérifier si la case est vide
+        if (!plateau.getTableau()[ligne][colonne].equals("\uD83D\uDFE9")) {
+            return false; // Case déjà occupée
+        }
+
+        // Vérifier s'il existe des encadrements pour cette couleur
+        return !getEncadrementsPour(ligne, colonne, couleurJoueur).isEmpty();
+    }
+    public List<int[]> getEncadrementsPour(int ligne, int colonne, String couleurJoueur) {
+        String couleurAdverse = (couleurJoueur.equals("⚫")) ? "⚪" : "⚫";
+
+        int[][] directions = {
+                {-1, 0}, {1, 0}, {0, -1}, {0, 1}, // Vertical et horizontal
+                {-1, -1}, {-1, 1}, {1, -1}, {1, 1} // Diagonales
+        };
+
+        List<int[]> directionsValides = new ArrayList<>();
+
+        for (int[] dir : directions) {
+            int dx = dir[0], dy = dir[1];
+            int x = ligne + dx, y = colonne + dy;
+            boolean pionAdverseTrouve = false;
+
+            while (x >= 0 && x < 8 && y >= 0 && y < 8) {
+                String caseActuelle = plateau.getTableau()[x][y];
+
+                if (caseActuelle.equals("\uD83D\uDFE9"))  // Case vide = arrêt
+                    break;
+                if (caseActuelle.equals(couleurAdverse)) {
+                    pionAdverseTrouve = true;
+                } else if (caseActuelle.equals(couleurJoueur) && pionAdverseTrouve) {
+                    directionsValides.add(new int[]{dx, dy});
+                    break;
+                } else {
+                    break;
+                }
+
+                x += dx;
+                y += dy;
+            }
+        }
+
+        return directionsValides;
+    }
+
+    public Partie copier() {
+        Partie copie = new Partie(this.joueurs[0].copier(), this.joueurs[1].copier());
+        copie.setJoueurCourant(this.getJoueurCourant());
+        copie.setPlateau(this.getPlateau());
+        return copie;
+    }
+
+
+
+
 }
 
 

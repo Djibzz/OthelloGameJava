@@ -57,6 +57,53 @@ public class Plateau {
         return new int[]{ligne - 1, colonne}; // Ajustement (lignes 1-8 → index 0-7)
     }
 
+    public int evaluerPlateau( String couleurJoueur) {
+        int score = 0;
+        int nbPionsJoueur = 0, nbPionsAdversaire = 0;
+        String couleurAdverse = couleurJoueur.equals("⚫") ? "⚪" : "⚫";
+        String [][] tableau = getTableau();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (tableau[i][j].equals(couleurJoueur)) {
+                    nbPionsJoueur++;
+                    if ((i == 0 && j == 0) || (i == 0 && j == 7) || (i == 7 && j == 0) || (i == 7 && j == 7)) {
+                        score += 11; // Coin
+                    } else if (i == 0 || i == 7 || j == 0 || j == 7) {
+                        score += 6; // Bord
+                    } else {
+                        score += 1; // Autres positions
+                    }
+                }else if (tableau[i][j].equals(couleurAdverse)) {
+                    nbPionsAdversaire++;
+                }
+            }
+        }
+        if (partieEstFinie()) {
+            if (nbPionsJoueur > nbPionsAdversaire) {
+                return 10000;
+            } else if (nbPionsJoueur < nbPionsAdversaire) {
+                return -10000;
+            } else {
+                return 0;
+            }
+        }
+
+        return score;
+    }
+    public boolean partieEstFinie() {
+        // Si plus de case vide ou aucun joueur ne peut jouer
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (tableau[i][j].equals("\uD83D\uDFE9")) {
+                    return false;
+                }
+            }
+        }
+        return true; // Plateau rempli
+    }
+
+
 
 
 }

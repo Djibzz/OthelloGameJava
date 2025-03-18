@@ -28,6 +28,14 @@ public class Joueur {
         return NbPartiesgagnés;
     }
 
+    public void setNbPartiesgagnés(int nbPartiesgagnés) {
+        NbPartiesgagnés = nbPartiesgagnés;
+    }
+
+    public void setNbPions(int nbPions) {
+        this.nbPions = nbPions;
+    }
+
     public int getNbPions() {return nbPions;}
 
     public void gagne(){NbPartiesgagnés++;}
@@ -46,6 +54,12 @@ public class Joueur {
             return false;
 
         return true;
+    }
+    public Joueur copier() {
+        Joueur copie = new Joueur(this.Pseudo);  // Crée un nouveau joueur avec le même pseudo
+        copie.setNbPartiesgagnés(getNbPartiesgagnés());  // Copie le nombre de parties gagnées
+        copie.setNbPions(getNbPions());  // Copie le nombre de pions
+        return copie;
     }
 
 }

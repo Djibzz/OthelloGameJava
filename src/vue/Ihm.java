@@ -23,6 +23,10 @@ public class Ihm {
             joueur2.setPseudo(scanner.nextLine());
         }
     }
+    public void demanderNomIA(Joueur joueur1) {
+        System.out.println("Joueur 1, veuillez saisir votre nom :");
+        joueur1.setPseudo(scanner.nextLine());
+    }
 
 
     // Afficher le plateau de jeu
@@ -86,6 +90,17 @@ public class Ihm {
         String choix = scanner.nextLine();
         while (!choix.equalsIgnoreCase("IA") && !choix.equalsIgnoreCase("J2")) {
             System.out.println("Choix invalide. Tapez 'IA' pour jouer contre l'IA ou 'J2' pour jouer à 2.");
+            choix = scanner.nextLine();
+        }
+        return choix;
+    }
+
+    public String demanderTypeIA(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Voulez vous jouer contre contre l'IA naive ou une IA intélligente , Taper 'naif' ou 'fort'");
+        String choix = scanner.nextLine();
+        while (!choix.equalsIgnoreCase("naif") && !choix.equalsIgnoreCase("fort")) {
+            System.out.println("Choix invalide. Tapez 'naif' pour jouer contre l'IA naive ou 'fort' pour jouer contre l'IA intélligente");
             choix = scanner.nextLine();
         }
         return choix;
