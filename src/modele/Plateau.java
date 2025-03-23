@@ -12,6 +12,13 @@ public class Plateau {
         return tableau;
     }
 
+    public static void setTableau(String[][] tableau) {
+        Plateau.tableau = tableau;
+    }
+    public Plateau(String[][] tableauCopie) {
+        this.tableau = tableauCopie;
+    }
+
     public Plateau(){
         tableau = new String[taille][taille];
         InitialisationTableau();
@@ -102,7 +109,32 @@ public class Plateau {
         }
         return true; // Plateau rempli
     }
+    public Plateau copier() {
+        Plateau copie = new Plateau();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                copie.getTableau()[i][j] = new String(this.tableau[i][j]);
+            }
+        }
+        return copie;
+    }
 
+
+    public void initialiserPlateauDebug() {
+        // Tout vider
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                tableau[i][j] = "🟩";  // Case vide
+            }
+        }
+        // Exemple d’état complexe pour test
+        tableau[4][2] = "⚫";
+        //tableau[3][4] = "⚪";
+        tableau[4][3] = "⚫";
+        tableau[4][4] = "⚫";
+        tableau[5][3] = "⚫";
+        tableau[5][4] = "⚪";
+    }
 
 
 

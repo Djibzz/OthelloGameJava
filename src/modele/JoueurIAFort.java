@@ -3,7 +3,7 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoueurIAFort  extends JoueurIA{
+public class JoueurIAFort  extends Joueur{
     public JoueurIAFort(String pseudo) {
         super(pseudo);
     }
@@ -19,8 +19,8 @@ public class JoueurIAFort  extends JoueurIA{
         }
         return coupsValides;
     }
-    public int minimax( Partie partie, boolean estMax, String couleurIA) {
-        if (partie.getPlateau().partieEstFinie()) {
+    public int minimax( Partie partie, boolean estMax, String couleurIA, int profondeur) {
+        if (profondeur == 0 ||partie.getPlateau().partieEstFinie()) {
             return partie.getPlateau().evaluerPlateau(couleurIA); // Fonction d'évaluation
         }
         String couleurAdverse = couleurIA.equals("⚫") ? "⚪" : "⚫";
@@ -31,7 +31,7 @@ public class JoueurIAFort  extends JoueurIA{
                 Partie copiePartie = partie.copier();
                 copiePartie.jouerCoup(coup);
                 copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-                int score = minimax(copiePartie,false,couleurIA);
+                int score = minimax(copiePartie,false,couleurIA, profondeur -1);
                 meilleurScore= Math.max(meilleurScore,score);
             }
             return  meilleurScore;
@@ -41,7 +41,7 @@ public class JoueurIAFort  extends JoueurIA{
                 Partie copiePartie = partie.copier();
                 copiePartie.jouerCoup(coup);
                 copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-                int score = minimax(copiePartie,true,couleurIA);
+                int score = minimax(copiePartie,true,couleurIA, profondeur -1 );
                 pirescore= Math.min(pirescore,score);
             }
             return  pirescore;
@@ -49,7 +49,7 @@ public class JoueurIAFort  extends JoueurIA{
 
 
     }
-    public String jouerCoup(Partie partie) {
+    public String jouerCoupIA(Partie partie) {
         String meilleurCoup = null;
         int meilleurScore = Integer.MIN_VALUE;
         String couleurIA = partie.getJoueurCourant().equals(partie.getJoueurs()[0]) ? "⚫" : "⚪";
@@ -58,7 +58,7 @@ public class JoueurIAFort  extends JoueurIA{
             Partie copiePartie = partie.copier();
             copiePartie.jouerCoup(coup);
             copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-            int score = minimax(copiePartie, false, couleurIA);
+            int score = minimax(copiePartie, false, couleurIA,4);
             if (score > meilleurScore) {
                 meilleurScore = score;
                 meilleurCoup = coup;
@@ -68,7 +68,7 @@ public class JoueurIAFort  extends JoueurIA{
         if (meilleurCoup != null) {
             partie.jouerCoup(meilleurCoup);
         } else {
-            partie.jouerCoup("P"); 
+            partie.jouerCoup("P");
         }
         return  meilleurCoup;
     }

@@ -32,14 +32,17 @@ public class Ihm {
     // Afficher le plateau de jeu
     public void afficherPlateau(Plateau plateau) {
         System.out.println("   A  B  C  D   E  F  G  H  ");
+        System.out.println("  -----------------------------");
         for (int i = 0; i < 8; i++) {
-            System.out.print((i + 1) + " ");
+            System.out.print((i + 1) + " | ");
             for (int j = 0; j < 8; j++) {
                 System.out.print(plateau.getTableau()[i][j] + " ");
             }
-            System.out.println();
+            System.out.println("|");
         }
-    } // Afficher le joueur courant
+        System.out.println("  -----------------------------");
+    }
+    // Afficher le joueur courant
     public void afficherJoueurCourant(Joueur joueur) {
         System.out.println("C'est au tour de " + joueur.getPseudo() + " de jouer.");
     }
@@ -80,7 +83,7 @@ public class Ihm {
         System.out.println("Voulez-vous rejouer ? (O/N)");
         String reponse = scanner.nextLine().toLowerCase();
 
-        return reponse.equals("o"); // Comparaison en minuscule
+        return reponse.equalsIgnoreCase("o"); // Comparaison en minuscule
     }
 
     public String demanderTypedeJeu(){

@@ -6,6 +6,8 @@ import modele.JoueurIAFort;
 import modele.Partie;
 import vue.Ihm;
 
+import java.util.List;
+
 public class Controleur {
     private Ihm ihm;
     private Partie partie;
@@ -14,7 +16,7 @@ public class Controleur {
         this.ihm = new Ihm();
     }
 
-    public void demanderTypedeJeu(){  // True = IA False = Joueur 2
+    public void demanderTypedeJeu(){  // True = IA ,False = Joueur 2
         String choix = ihm.demanderTypedeJeu();
         Joueur joueur1 = new Joueur("Joueur 1");
         Joueur joueur2;
@@ -51,8 +53,8 @@ public class Controleur {
                         ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement sur la case " + coupIA);
                     }
                     else if (partie.getJoueurCourant() instanceof JoueurIAFort) {
-                        JoueurIA ia = (JoueurIAFort) partie.getJoueurCourant();
-                        String coupIA = ia.jouerCoup(partie);
+                        JoueurIAFort ia = (JoueurIAFort) partie.getJoueurCourant();
+                        String coupIA = ia.jouerCoupIA(partie);
                         ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement sur la case " + coupIA);
                     } else {
                         String coup;
@@ -104,5 +106,44 @@ public class Controleur {
             ihm.afficherMessage("Ex aequo  !");
         }
     }
+
+    public void lancerModeDebug() {
+        System.out.println("=== MODE DEBUG IA MINIMAX ===");
+        JoueurIAFort ia = new JoueurIAFort("IA Forte");
+        Joueur joueurHumain = new Joueur("Joueur Test");
+        Partie partie = new Partie(ia, joueurHumain);
+
+        // Initialise un plateau fixe
+        partie.getPlateau().initialiserPlateauDebug();
+
+        // Affiche l'état initial
+        System.out.println("Plateau initial :");
+        ihm.afficherPlateau(partie.getPlateau());
+
+        String couleurIA = "⚪"; // Supposons que l'IA joue blanc
+        List<String> coupsPossibles = ia.getTousLesCoupsValidesPour(partie, couleurIA);
+
+        System.out.println("Coup possibles pour l'IA (" + couleurIA + "): " + coupsPossibles);
+
+        String meilleurCoup = null;
+        int meilleurScore = Integer.MIN_VALUE;
+
+        for (String coup : coupsPossibles) {
+            Partie copiePartie = partie.copier();
+            copiePartie.jouerCoup(coup);
+            copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
+
+            int score = ia.minimax(copiePartie, false, couleurIA,6);
+            System.out.println("Évaluation du coup " + coup + " : " + score);
+
+            if (score > meilleurScore) {
+                meilleurScore = score;
+                meilleurCoup = coup;
+            }
+        }
+
+        System.out.println("Meilleur coup choisi par l'IA : " + meilleurCoup + " avec un score de " + meilleurScore);
+    }
+
 }
 

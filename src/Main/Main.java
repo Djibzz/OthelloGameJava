@@ -9,6 +9,7 @@ public class Main {
         Ihm ihm = new Ihm();
         Controleur controleur = new Controleur();
         controleur.jouerPartie();
+        //controleur.lancerModeDebug();
        
     }
 }

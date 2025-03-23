@@ -152,6 +152,7 @@ public class Partie {
         return coords[0] == -1 && coords[1] == -1;
 
     }
+
     public boolean partieEstFinie() {
         // Vérifier si les deux joueurs ne peuvent plus jouer
         boolean aucunCoupValide = !peutJouer(joueurs[0]) && !peutJouer(joueurs[1]);
@@ -162,7 +163,7 @@ public class Partie {
             for (int j = 0; j < 8; j++) {
                 if (plateau.getTableau()[i][j].equals("\uD83D\uDFE9")) { // Si une case est vide
                     plateauPlein = false;
-                    break;
+                    return plateauPlein;
                 }
             }
         }
@@ -262,7 +263,12 @@ public class Partie {
     public Partie copier() {
         Partie copie = new Partie(this.joueurs[0].copier(), this.joueurs[1].copier());
         copie.setJoueurCourant(this.getJoueurCourant());
-        copie.setPlateau(this.getPlateau());
+        String[][] tableauOriginal = this.plateau.getTableau();
+        String[][] tableauCopie = new String[8][8];
+        for (int i = 0; i < 8; i++) {
+            System.arraycopy(tableauOriginal[i], 0, tableauCopie[i], 0, 8);
+        }
+        copie.plateau = new Plateau(tableauCopie);
         return copie;
     }
 
