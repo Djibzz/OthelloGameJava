@@ -1,10 +1,13 @@
 package modele;
 
-import controleur.Controleur;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * La classe {@code Partie} gère le déroulement d'une partie d'Othello.
+ * Elle contient les joueurs, le plateau, et la logique pour jouer un coup,
+ * vérifier la validité d'un coup, déterminer les encadrements et la fin de la partie.
+ */
 public class Partie {
 
     private Joueur joueurCourant;
@@ -13,33 +16,12 @@ public class Partie {
     private static final String Noir = "⚫";
     private static final String Blanc = "⚪";
 
-
-    public Joueur getJoueurCourant() {
-        return joueurCourant;
-    }
-
-    public Joueur[] getJoueurs() {
-        return joueurs;
-    }
-
-    public void setPlateau(Plateau plateau) {
-        this.plateau = plateau;
-    }
-
-    public Plateau getPlateau() {
-        return plateau;
-    }
-
-    public Joueur LejoueurSuivant() {
-        if (joueurCourant.equals(joueurs[0])) {
-            return joueurs[1];
-        } else return joueurs[0];
-    }
-
-    public void setJoueurCourant(Joueur j) {
-        joueurCourant = j;
-    }
-
+    /**
+     * Constructeur d'une partie.
+     *
+     * @param joueur1 le premier joueur (Noir)
+     * @param joueur2 le second joueur (Blanc)
+     */
     public Partie(Joueur joueur1, Joueur joueur2) {
         this.joueurCourant = joueur1;
         joueurs[0] = joueur1;
@@ -47,6 +29,60 @@ public class Partie {
         plateau = new Plateau();
     }
 
+    /**
+     * Retourne le joueur dont c'est le tour.
+     *
+     * @return le joueur courant
+     */
+    public Joueur getJoueurCourant() {
+        return joueurCourant;
+    }
+
+    /**
+     * Retourne le tableau des deux joueurs.
+     *
+     * @return un tableau contenant les deux joueurs
+     */
+    public Joueur[] getJoueurs() {
+        return joueurs;
+    }
+
+    /**
+     * Retourne le plateau de jeu.
+     *
+     * @return le plateau
+     */
+    public Plateau getPlateau() {
+        return plateau;
+    }
+
+    /**
+     * Retourne le joueur suivant.
+     *
+     * @return le joueur qui doit jouer après le joueur courant
+     */
+    public Joueur LejoueurSuivant() {
+        if (joueurCourant.equals(joueurs[0])) {
+            return joueurs[1];
+        } else {
+            return joueurs[0];
+        }
+    }
+
+    /**
+     * Définit le joueur courant.
+     *
+     * @param j le joueur à définir comme courant
+     */
+    public void setJoueurCourant(Joueur j) {
+        joueurCourant = j;
+    }
+
+    /**
+     * Détermine le gagnant global en comparant le nombre de parties gagnées de chaque joueur.
+     *
+     * @return le joueur gagnant ou {@code null} en cas d'égalité
+     */
     public Joueur gagnant() {
         if (joueurs[0].getNbPartiesgagnés() < joueurs[1].getNbPartiesgagnés()) {
             return joueurs[1];
@@ -56,7 +92,12 @@ public class Partie {
         return null; // Cas d'égalité
     }
 
-
+    /**
+     * Détermine le gagnant de la partie en fonction du nombre de pions.
+     * Incrémente le score du gagnant.
+     *
+     * @return le joueur gagnant de la partie ou {@code null} en cas d'égalité
+     */
     public Joueur gagnantdelaPartie() {
         int nbNoir = 0, nbBlanc = 0;
         for (String[] ligne : plateau.getTableau()) {
@@ -71,18 +112,26 @@ public class Partie {
         if (nbNoir > nbBlanc) {
             joueurs[0].gagne();
             return joueurs[0];
-        } else {
+        } else if (nbNoir < nbBlanc) {
             joueurs[1].gagne();
             return joueurs[1];
         }
+        return null; // Cas d'égalité
     }
 
+    /**
+     * Vérifie si un coup est valide.
+     * Le coup est valide s'il correspond à une case vide et qu'il permet d'encadrer un ou plusieurs pions adverses.
+     *
+     * @param coup le coup sous forme de chaîne (ex: "3C" ou "P" pour passer)
+     * @return {@code true} si le coup est valide, {@code false} sinon
+     */
     public boolean coupValide(String coup) {
         int[] coords = plateau.inputVersCoordonnes(coup);
         int ligne = coords[0], colonne = coords[1];
 
-        if(ligne == -1&&colonne==-1 ) {
-            if(!peutJouer(joueurCourant))
+        if (ligne == -1 && colonne == -1) {
+            if (!peutJouer(joueurCourant))
                 setJoueurCourant(LejoueurSuivant());
             return false;
         }
@@ -94,6 +143,13 @@ public class Partie {
         return !getEncadrements(ligne, colonne).isEmpty();
     }
 
+    /**
+     * Retourne la liste des directions dans lesquelles des pions adverses sont encadrés.
+     *
+     * @param ligne   la ligne du coup joué
+     * @param colonne la colonne du coup joué
+     * @return une liste d'entiers représentant les directions valides
+     */
     public List<int[]> getEncadrements(int ligne, int colonne) {
         String couleurJoueur = (joueurCourant.equals(joueurs[0])) ? Noir : Blanc;
         String couleurAdverse = (couleurJoueur.equals(Noir)) ? Blanc : Noir;
@@ -129,49 +185,66 @@ public class Partie {
                 y += dy;
             }
         }
-
         return directionsValides;
-
     }
 
+    /**
+     * Vérifie si le joueur peut jouer (au moins un coup valide est disponible).
+     *
+     * @param joueur le joueur à tester
+     * @return {@code true} si le joueur peut jouer, {@code false} sinon
+     */
     public boolean peutJouer(Joueur joueur) {
-        for (int ligne = 1; ligne <= 8; ligne++) { // Lignes de 1 à 8
-            for (char colonne = 'A'; colonne <= 'H'; colonne++) { // Colonnes de A à H
-                String coup = ligne + "" + colonne; //
+        for (int ligne = 1; ligne <= 8; ligne++) {
+            for (char colonne = 'A'; colonne <= 'H'; colonne++) {
+                String coup = ligne + "" + colonne;
                 if (coupValide(coup)) {
-                    return true; // Le joueur a au moins un coup valide
+                    return true;
                 }
             }
         }
-        return false; // Aucun coup valide trouvé, le joueur peut passer
+        return false;
     }
 
+    /**
+     * Vérifie si le joueur a choisi de passer son tour.
+     *
+     * @param coup le coup saisi
+     * @return {@code true} si le coup correspond à un passage de tour, {@code false} sinon
+     */
     public boolean Passersontour(String coup) {
         int[] coords = plateau.inputVersCoordonnes(coup);
-        //Vérifier si le joueur n'as pas passé son tour
         return coords[0] == -1 && coords[1] == -1;
-
     }
 
+    /**
+     * Vérifie si la partie est terminée.
+     * La partie est terminée si le plateau est plein ou si aucun joueur ne peut jouer.
+     *
+     * @return {@code true} si la partie est finie, {@code false} sinon
+     */
     public boolean partieEstFinie() {
-        // Vérifier si les deux joueurs ne peuvent plus jouer
         boolean aucunCoupValide = !peutJouer(joueurs[0]) && !peutJouer(joueurs[1]);
 
         // Vérifier si le plateau est plein
         boolean plateauPlein = true;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (plateau.getTableau()[i][j].equals("\uD83D\uDFE9")) { // Si une case est vide
+                if (plateau.getTableau()[i][j].equals("\uD83D\uDFE9")) {
                     plateauPlein = false;
                     return plateauPlein;
                 }
             }
         }
-
-        // La partie est finie si le plateau est plein ou si aucun joueur ne peut jouer
         return plateauPlein || aucunCoupValide;
     }
 
+    /**
+     * Applique un coup sur le plateau.
+     * Si le coup n'est pas un passage, il est validé et appliqué en retournant les pions encadrés.
+     *
+     * @param coup le coup à jouer
+     */
     public void jouerCoup(String coup) {
         if (!Passersontour(coup)) {
             if (coupValide(coup)) {
@@ -180,7 +253,7 @@ public class Partie {
                 List<int[]> lesEncadrements = getEncadrements(ligne, colonne);
                 String couleurJoueur = (joueurCourant.equals(joueurs[0])) ? Noir : Blanc;
                 String couleurAdverse = (couleurJoueur.equals(Noir)) ? Blanc : Noir;
-                plateau.getTableau()[ligne][colonne]= couleurJoueur;
+                plateau.getTableau()[ligne][colonne] = couleurJoueur;
 
                 for (int[] dir : lesEncadrements) {
                     int dx = dir[0], dy = dir[1];
@@ -188,25 +261,28 @@ public class Partie {
                     while (x >= 0 && x < 8 && y >= 0 && y < 8) {
                         String[][] tableau = plateau.getTableau();
                         String caseActuelle = tableau[x][y];
-                        if (caseActuelle.equals("\uD83D\uDFE9"))  // Case vide = arrêt
+                        if (caseActuelle.equals("\uD83D\uDFE9"))
                             break;
                         if (caseActuelle.equals(couleurAdverse)) {
-                            tableau[x][y]= couleurJoueur;
+                            tableau[x][y] = couleurJoueur;
                         }
-                        if (caseActuelle.equals(couleurJoueur))  // Case couleur du joueur = arrêt
+                        if (caseActuelle.equals(couleurJoueur))
                             break;
                         x += dx;
                         y += dy;
                     }
                 }
             }
-
-
         }
     }
 
-
-    // Methodes créées pour l'Algorithme MiniMAX elle ne dépende pas du joueur Courant mais de la couleur en paramètre
+    /**
+     * Vérifie la validité d'un coup pour une couleur donnée (utilisé pour l'algorithme Minimax).
+     *
+     * @param coup         le coup à tester
+     * @param couleurJoueur la couleur utilisée ("⚫" ou "⚪")
+     * @return {@code true} si le coup est valide, {@code false} sinon
+     */
     public boolean coupValidePour(String coup, String couleurJoueur) {
         int[] coords = plateau.inputVersCoordonnes(coup);
         int ligne = coords[0], colonne = coords[1];
@@ -214,21 +290,26 @@ public class Partie {
         if (ligne == -1 && colonne == -1) {
             return false; // On ne considère pas le passage de tour ici
         }
-
-        // Vérifier si la case est vide
         if (!plateau.getTableau()[ligne][colonne].equals("\uD83D\uDFE9")) {
             return false; // Case déjà occupée
         }
-
-        // Vérifier s'il existe des encadrements pour cette couleur
         return !getEncadrementsPour(ligne, colonne, couleurJoueur).isEmpty();
     }
+
+    /**
+     * Retourne la liste des directions d'encadrement valides pour une couleur donnée.
+     *
+     * @param ligne         la ligne du coup
+     * @param colonne       la colonne du coup
+     * @param couleurJoueur la couleur utilisée ("⚫" ou "⚪")
+     * @return la liste des directions d'encadrement
+     */
     public List<int[]> getEncadrementsPour(int ligne, int colonne, String couleurJoueur) {
         String couleurAdverse = (couleurJoueur.equals("⚫")) ? "⚪" : "⚫";
 
         int[][] directions = {
-                {-1, 0}, {1, 0}, {0, -1}, {0, 1}, // Vertical et horizontal
-                {-1, -1}, {-1, 1}, {1, -1}, {1, 1} // Diagonales
+                {-1, 0}, {1, 0}, {0, -1}, {0, 1},
+                {-1, -1}, {-1, 1}, {1, -1}, {1, 1}
         };
 
         List<int[]> directionsValides = new ArrayList<>();
@@ -241,7 +322,7 @@ public class Partie {
             while (x >= 0 && x < 8 && y >= 0 && y < 8) {
                 String caseActuelle = plateau.getTableau()[x][y];
 
-                if (caseActuelle.equals("\uD83D\uDFE9"))  // Case vide = arrêt
+                if (caseActuelle.equals("\uD83D\uDFE9"))
                     break;
                 if (caseActuelle.equals(couleurAdverse)) {
                     pionAdverseTrouve = true;
@@ -251,15 +332,18 @@ public class Partie {
                 } else {
                     break;
                 }
-
                 x += dx;
                 y += dy;
             }
         }
-
         return directionsValides;
     }
 
+    /**
+     * Crée une copie de la partie, utilisée pour simuler les coups dans l'algorithme Minimax.
+     *
+     * @return une nouvelle instance de Partie avec le même état que l'original
+     */
     public Partie copier() {
         Partie copie = new Partie(this.joueurs[0].copier(), this.joueurs[1].copier());
         copie.setJoueurCourant(this.getJoueurCourant());
@@ -271,11 +355,4 @@ public class Partie {
         copie.plateau = new Plateau(tableauCopie);
         return copie;
     }
-
-
-
-
 }
-
-
-

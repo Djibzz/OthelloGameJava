@@ -3,11 +3,29 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoueurIAFort  extends Joueur{
+/**
+ * La classe {@code JoueurIAFort} représente une IA plus avancée qui utilise l'algorithme Minimax.
+ * Elle hérite de {@code Joueur} et implémente la stratégie Minimax pour choisir le meilleur coup.
+ */
+public class JoueurIAFort extends Joueur {
+
+    /**
+     * Constructeur de l'IA forte.
+     *
+     * @param pseudo le pseudo de l'IA
+     */
     public JoueurIAFort(String pseudo) {
         super(pseudo);
     }
-    public List<String> getTousLesCoupsValidesPour(Partie partie ,String couleur) {
+
+    /**
+     * Obtient la liste de tous les coups valides pour une couleur donnée.
+     *
+     * @param partie  la partie en cours
+     * @param couleur la couleur utilisée ("⚫" ou "⚪")
+     * @return la liste des coups valides pour cette couleur
+     */
+    public List<String> getTousLesCoupsValidesPour(Partie partie, String couleur) {
         List<String> coupsValides = new ArrayList<>();
         for (int ligne = 1; ligne <= 8; ligne++) {
             for (char colonne = 'A'; colonne <= 'H'; colonne++) {
@@ -19,36 +37,51 @@ public class JoueurIAFort  extends Joueur{
         }
         return coupsValides;
     }
-    public int minimax( Partie partie, boolean estMax, String couleurIA, int profondeur) {
-        if (profondeur == 0 ||partie.getPlateau().partieEstFinie()) {
+
+    /**
+     * Implémente l'algorithme Minimax pour évaluer un coup.
+     *
+     * @param partie     la partie en cours
+     * @param estMax     {@code true} si on maximise le score, {@code false} sinon
+     * @param couleurIA  la couleur de l'IA
+     * @param profondeur la profondeur de recherche
+     * @return le score évalué pour la position
+     */
+    public int minimax(Partie partie, boolean estMax, String couleurIA, int profondeur) {
+        if (profondeur == 0 || partie.getPlateau().partieEstFinie()) {
             return partie.getPlateau().evaluerPlateau(couleurIA); // Fonction d'évaluation
         }
         String couleurAdverse = couleurIA.equals("⚫") ? "⚪" : "⚫";
 
-        if(estMax){
+        if (estMax) {
             int meilleurScore = Integer.MIN_VALUE;
-            for (String coup : getTousLesCoupsValidesPour(partie,couleurIA)){
+            for (String coup : getTousLesCoupsValidesPour(partie, couleurIA)) {
                 Partie copiePartie = partie.copier();
                 copiePartie.jouerCoup(coup);
                 copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-                int score = minimax(copiePartie,false,couleurIA, profondeur -1);
-                meilleurScore= Math.max(meilleurScore,score);
+                int score = minimax(copiePartie, false, couleurIA, profondeur - 1);
+                meilleurScore = Math.max(meilleurScore, score);
             }
-            return  meilleurScore;
-        }else{
-            int pirescore = Integer.MAX_VALUE;
-            for (String coup : getTousLesCoupsValidesPour(partie,couleurAdverse)){
+            return meilleurScore;
+        } else {
+            int pireScore = Integer.MAX_VALUE;
+            for (String coup : getTousLesCoupsValidesPour(partie, couleurAdverse)) {
                 Partie copiePartie = partie.copier();
                 copiePartie.jouerCoup(coup);
                 copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-                int score = minimax(copiePartie,true,couleurIA, profondeur -1 );
-                pirescore= Math.min(pirescore,score);
+                int score = minimax(copiePartie, true, couleurIA, profondeur - 1);
+                pireScore = Math.min(pireScore, score);
             }
-            return  pirescore;
+            return pireScore;
         }
-
-
     }
+
+    /**
+     * Joue un coup en utilisant l'algorithme Minimax.
+     *
+     * @param partie la partie en cours
+     * @return le meilleur coup choisi par l'IA
+     */
     public String jouerCoupIA(Partie partie) {
         String meilleurCoup = null;
         int meilleurScore = Integer.MIN_VALUE;
@@ -58,7 +91,7 @@ public class JoueurIAFort  extends Joueur{
             Partie copiePartie = partie.copier();
             copiePartie.jouerCoup(coup);
             copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-            int score = minimax(copiePartie, false, couleurIA,4);
+            int score = minimax(copiePartie, false, couleurIA, 4);
             if (score > meilleurScore) {
                 meilleurScore = score;
                 meilleurCoup = coup;
@@ -70,9 +103,6 @@ public class JoueurIAFort  extends Joueur{
         } else {
             partie.jouerCoup("P");
         }
-        return  meilleurCoup;
+        return meilleurCoup;
     }
-
-
-
 }
