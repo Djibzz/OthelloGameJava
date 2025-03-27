@@ -1,9 +1,6 @@
 package vue;
 
-import modele.Joueur;
-import modele.JoueurIA;
-import modele.Partie;
-import modele.Plateau;
+
 
 import java.util.Scanner;
 
@@ -15,56 +12,31 @@ public class Ihm {
     }
 
     // Demander le nom des joueurs
-    public void demanderNom(Joueur joueur1, Joueur joueur2) {
-        System.out.println("Joueur 1, veuillez saisir votre nom :");
-        joueur1.setPseudo(scanner.nextLine());
-        if (!(joueur2 instanceof JoueurIA)) {
-            System.out.println("Joueur 2, veuillez saisir votre nom :");
-            joueur2.setPseudo(scanner.nextLine());
-        }
-    }
-    public void demanderNomIA(Joueur joueur1) {
-        System.out.println("Joueur 1, veuillez saisir votre nom :");
-        joueur1.setPseudo(scanner.nextLine());
+    public String demanderNom(int joueur ) {
+        System.out.println("Joueur "+joueur+", veuillez saisir votre nom :");
+        return scanner.nextLine();
     }
 
 
     // Afficher le plateau de jeu
-    public void afficherPlateau(Plateau plateau) {
+    public void afficherPlateau(String [][] tableau) {
         System.out.println("   A  B  C  D   E  F  G  H  ");
         System.out.println("  -----------------------------");
         for (int i = 0; i < 8; i++) {
             System.out.print((i + 1) + " | ");
             for (int j = 0; j < 8; j++) {
-                System.out.print(plateau.getTableau()[i][j] + " ");
+                System.out.print(tableau[i][j] + " ");
             }
             System.out.println("|");
         }
         System.out.println("  -----------------------------");
     }
     // Afficher le joueur courant
-    public void afficherJoueurCourant(Joueur joueur) {
-        System.out.println("C'est au tour de " + joueur.getPseudo() + " de jouer.");
+    public void afficherJoueurCourant(String joueur) {
+        System.out.println("C'est au tour de " + joueur + " de jouer.");
     }
 
-    // Afficher les scores (pions capturés et parties gagnées)
-    public void afficherScores(Partie partie) {
-        int scoreNoir = 0, scoreBlanc = 0;
-        // Parcours du tableau pour compter les pions noirs et blancs
-        for (String[] ligne : partie.getPlateau().getTableau()) {
-            for (String pion : ligne) {
-                if (pion.equals("⚫")) {  // Pion noir
-                    scoreNoir++;
-                } else if (pion.equals("⚪")) {  // Pion blanc
-                    scoreBlanc++;
-                }
-            }
-        }
 
-        System.out.println("Score actuel :");
-        System.out.println("Noir (joueur " + partie.getJoueurs()[0].getPseudo() + ") = " + scoreNoir + " pions | Parties gagnées = " + partie.getJoueurs()[0].getNbPartiesgagnés());
-        System.out.println("Blanc (joueur " + partie.getJoueurs()[1].getPseudo() + ") = " + scoreBlanc + " pions | Parties gagnées = " + partie.getJoueurs()[1].getNbPartiesgagnés());
-    }
     // Demander un coup au joueur
     public String demanderCoup(String nomJoueur) {
         System.out.println(nomJoueur + ", entrez votre coup (ex: 3C) ou 'P' pour passer : ");

@@ -6,7 +6,6 @@ import modele.JoueurIAFort;
 import modele.Partie;
 import vue.Ihm;
 
-import java.util.List;
 
 public class Controleur {
     private Ihm ihm;
@@ -24,16 +23,17 @@ public class Controleur {
             String choixIA = ihm.demanderTypeIA();
             if(choixIA.equalsIgnoreCase("fort")) {
                 joueur2 = new JoueurIAFort("Joueur IA intélligent");
-                ihm.demanderNomIA(joueur1);
+                joueur1.setPseudo(ihm.demanderNom(1));
                 partie = new Partie(joueur1, joueur2);
             }else {
                 joueur2 = new JoueurIA("Joueur IA Naif");
-                ihm.demanderNomIA(joueur1);
+                joueur1.setPseudo(ihm.demanderNom(1));
                 partie = new Partie(joueur1, joueur2);
             }
         }else{
             joueur2 = new Joueur("Joueur 2");
-            ihm.demanderNom(joueur1, joueur2);
+            joueur1.setPseudo(ihm.demanderNom(1));
+            joueur2.setPseudo(ihm.demanderNom(2));
             partie = new Partie(joueur1, joueur2);
         }
     }
@@ -43,8 +43,8 @@ public class Controleur {
         do {
             demanderTypedeJeu();
             while (!partie.partieEstFinie()) {
-                ihm.afficherPlateau(partie.getPlateau());
-                ihm.afficherJoueurCourant(partie.getJoueurCourant());
+                ihm.afficherPlateau(partie.getPlateau().getTableau());
+                ihm.afficherJoueurCourant(partie.getJoueurCourant().getPseudo());
 
                 if (partie.peutJouer(partie.getJoueurCourant())) {
                     if(partie.getJoueurCourant() instanceof JoueurIA ) {
