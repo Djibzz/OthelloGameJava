@@ -107,43 +107,7 @@ public class Controleur {
         }
     }
 
-    public void lancerModeDebug() {
-        System.out.println("=== MODE DEBUG IA MINIMAX ===");
-        JoueurIAFort ia = new JoueurIAFort("IA Forte");
-        Joueur joueurHumain = new Joueur("Joueur Test");
-        Partie partie = new Partie(ia, joueurHumain);
 
-        // Initialise un plateau fixe
-        partie.getPlateau().initialiserPlateauDebug();
-
-        // Affiche l'état initial
-        System.out.println("Plateau initial :");
-        ihm.afficherPlateau(partie.getPlateau());
-
-        String couleurIA = "⚪"; // Supposons que l'IA joue blanc
-        List<String> coupsPossibles = ia.getTousLesCoupsValidesPour(partie, couleurIA);
-
-        System.out.println("Coup possibles pour l'IA (" + couleurIA + "): " + coupsPossibles);
-
-        String meilleurCoup = null;
-        int meilleurScore = Integer.MIN_VALUE;
-
-        for (String coup : coupsPossibles) {
-            Partie copiePartie = partie.copier();
-            copiePartie.jouerCoup(coup);
-            copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-
-            int score = ia.minimax(copiePartie, false, couleurIA,6);
-            System.out.println("Évaluation du coup " + coup + " : " + score);
-
-            if (score > meilleurScore) {
-                meilleurScore = score;
-                meilleurCoup = coup;
-            }
-        }
-
-        System.out.println("Meilleur coup choisi par l'IA : " + meilleurCoup + " avec un score de " + meilleurScore);
-    }
 
 }
 
