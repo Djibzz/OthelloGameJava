@@ -38,33 +38,19 @@ public class JoueurIA extends Joueur {
         return coupsValides;
     }
 
-    /**
-     * Choisit un coup aléatoire parmi les coups valides.
-     *
-     * @param partie la partie en cours
-     * @return un coup valide ou {@code null} s'il n'existe aucun coup valide
-     */
-    public String choisircoup(Partie partie) {
-        List<String> coups = obtenirCoupsValides(partie);
-        if (coups.isEmpty())
-            return null;  // Aucun coup valide, l'IA passe son tour
-        Random rand = new Random();
-        int rand_int = rand.nextInt(coups.size());
-        return coups.get(rand_int);
+    private StrategieIA strategie;
+
+    public JoueurIA(String pseudo, StrategieIA strategie) {
+        super(pseudo);
+        this.strategie = strategie;
     }
 
-    /**
-     * Joue un coup en utilisant la stratégie aléatoire.
-     *
-     * @param partie la partie en cours
-     * @return le coup joué
-     */
     public String jouerCoup(Partie partie) {
-        String coup = choisircoup(partie);
+        String couleur = this.equals(partie.getJoueurs()[0]) ? "⚫" : "⚪";
+        String coup = strategie.choisirCoup(partie, couleur);
         if (coup != null) {
             partie.jouerCoup(coup);
         } else {
-            // Si l'IA ne peut pas jouer, elle passe son tour
             partie.jouerCoup("P");
         }
         return coup;

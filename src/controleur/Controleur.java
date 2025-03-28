@@ -1,9 +1,6 @@
 package controleur;
 
-import modele.Joueur;
-import modele.JoueurIA;
-import modele.JoueurIAFort;
-import modele.Partie;
+import modele.*;
 import vue.Ihm;
 
 /**
@@ -39,15 +36,16 @@ public class Controleur {
         Joueur joueur2;
         if (choix.equalsIgnoreCase("IA")) {
             String choixIA = ihm.demanderTypeIA();
+            StrategieIA strategie;
             if (choixIA.equalsIgnoreCase("fort")) {
-                joueur2 = new JoueurIAFort("Joueur IA intélligent");
-                joueur1.setPseudo(ihm.demanderNom(1));
-                partie = new Partie(joueur1, joueur2);
+                strategie = new StrategieMinimax(4);
             } else {
-                joueur2 = new JoueurIA("Joueur IA Naif");
+                strategie = new StrategieNaive();
+            }
+            joueur2 = new JoueurIA("IA", strategie);
                 joueur1.setPseudo(ihm.demanderNom(1));
                 partie = new Partie(joueur1, joueur2);
-            }
+
         } else {
             joueur2 = new Joueur("Joueur 2");
             joueur1.setPseudo(ihm.demanderNom(1));
@@ -73,10 +71,6 @@ public class Controleur {
                     if (partie.getJoueurCourant() instanceof JoueurIA) {
                         JoueurIA ia = (JoueurIA) partie.getJoueurCourant();
                         String coupIA = ia.jouerCoup(partie);
-                        ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement sur la case " + coupIA);
-                    } else if (partie.getJoueurCourant() instanceof JoueurIAFort) {
-                        JoueurIAFort ia = (JoueurIAFort) partie.getJoueurCourant();
-                        String coupIA = ia.jouerCoupIA(partie);
                         ihm.afficherMessage(ia.getPseudo() + " a joué automatiquement sur la case " + coupIA);
                     } else {
                         String coup;
