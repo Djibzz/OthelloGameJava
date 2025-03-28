@@ -49,7 +49,7 @@ public class JoueurIAFort extends Joueur {
      */
     public int minimax(Partie partie, boolean estMax, String couleurIA, int profondeur) {
         if (profondeur == 0 || partie.getPlateau().partieEstFinie()) {
-            return partie.getPlateau().evaluerPlateau(couleurIA); // Fonction d'évaluation
+            return evaluerPlateau(couleurIA,partie.getPlateau()); // Fonction d'évaluation
         }
         String couleurAdverse = couleurIA.equals("⚫") ? "⚪" : "⚫";
 
@@ -104,5 +104,48 @@ public class JoueurIAFort extends Joueur {
             partie.jouerCoup("P");
         }
         return meilleurCoup;
+    }
+
+    /**
+     * Évalue le plateau pour une couleur donnée.
+     * Les pions dans les coins, sur les bords et ailleurs sont valorisés différemment.
+     * Si la partie est finie, retourne une valeur très élevée ou très basse.
+     *
+     * @param couleurJoueur la couleur à évaluer ("⚫" ou "⚪")
+     * @return le score du plateau pour la couleur donnée  
+     */
+    public int evaluerPlateau(String couleurJoueur,Plateau plateau) {
+        int score = 0;
+        int nbPionsJoueur = 0, nbPionsAdversaire = 0;
+        String couleurAdverse = couleurJoueur.equals("⚫") ? "⚪" : "⚫";
+        String[][] tableau = plateau.getTableau();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (tableau[i][j].equals(couleurJoueur)) {
+                    nbPionsJoueur++;
+                    if ((i == 0 && j == 0) || (i == 0 && j == 8 - 1) ||
+                            (i == 8 - 1 && j == 0) || (i == 8 - 1 && j == 8 - 1)) {
+                        score += 11; // Coin
+                    } else if (i == 0 || i == 8 - 1 || j == 0 || j == 8 - 1) {
+                        score += 6; // Bord
+                    } else {
+                        score += 1; // Autres positions
+                    }
+                } else if (tableau[i][j].equals(couleurAdverse)) {
+                    nbPionsAdversaire++;
+                }
+            }
+        }
+        if (plateau.partieEstFinie()) {
+            if (nbPionsJoueur > nbPionsAdversaire) {
+                return 10000;
+            } else if (nbPionsJoueur < nbPionsAdversaire) {
+                return -10000;
+            } else {
+                return 0;
+            }
+        }
+        return score;
     }
 }

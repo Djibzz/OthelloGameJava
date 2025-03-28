@@ -96,49 +96,6 @@ public class Plateau {
     }
 
     /**
-     * Évalue le plateau pour une couleur donnée.
-     * Les pions dans les coins, sur les bords et ailleurs sont valorisés différemment.
-     * Si la partie est finie, retourne une valeur très élevée ou très basse.
-     *
-     * @param couleurJoueur la couleur à évaluer ("⚫" ou "⚪")
-     * @return le score du plateau pour la couleur donnée
-     */
-    public int evaluerPlateau(String couleurJoueur) {
-        int score = 0;
-        int nbPionsJoueur = 0, nbPionsAdversaire = 0;
-        String couleurAdverse = couleurJoueur.equals("⚫") ? "⚪" : "⚫";
-        String[][] tableau = getTableau();
-
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
-                if (tableau[i][j].equals(couleurJoueur)) {
-                    nbPionsJoueur++;
-                    if ((i == 0 && j == 0) || (i == 0 && j == taille - 1) ||
-                            (i == taille - 1 && j == 0) || (i == taille - 1 && j == taille - 1)) {
-                        score += 11; // Coin
-                    } else if (i == 0 || i == taille - 1 || j == 0 || j == taille - 1) {
-                        score += 6; // Bord
-                    } else {
-                        score += 1; // Autres positions
-                    }
-                } else if (tableau[i][j].equals(couleurAdverse)) {
-                    nbPionsAdversaire++;
-                }
-            }
-        }
-        if (partieEstFinie()) {
-            if (nbPionsJoueur > nbPionsAdversaire) {
-                return 10000;
-            } else if (nbPionsJoueur < nbPionsAdversaire) {
-                return -10000;
-            } else {
-                return 0;
-            }
-        }
-        return score;
-    }
-
-    /**
      * Vérifie si la partie est terminée en regardant si le plateau est plein.
      *
      * @return {@code true} si le plateau est rempli, {@code false} sinon
