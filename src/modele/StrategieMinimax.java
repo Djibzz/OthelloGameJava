@@ -12,13 +12,13 @@ public class StrategieMinimax implements StrategieIA {
     }
 
     @Override
-    public String choisirCoup(Partie partie, String couleur) {
-        List<String> coups = new JoueurIA("IA temporaire").obtenirCoupsValides(partie);
+    public String choisirCoup(PartieOthello partieOthello, String couleur) {
+        List<String> coups = new JoueurIA("IA temporaire").obtenirCoupsValides(partieOthello);
         String meilleurCoup = null;
         int meilleurScore = Integer.MIN_VALUE;
 
         for (String coup : coups) {
-            Partie copie = partie.copier();
+            PartieOthello copie = partieOthello.copier();
             copie.jouerCoup(coup);
             copie.setJoueurCourant(copie.LejoueurSuivant());
             int score = minimax(copie, false, couleur, profondeur);
@@ -30,12 +30,12 @@ public class StrategieMinimax implements StrategieIA {
         return meilleurCoup;
     }
 
-    public List<String> getTousLesCoupsValidesPour(Partie partie, String couleur) {
+    public List<String> getTousLesCoupsValidesPour(PartieOthello partieOthello, String couleur) {
         List<String> coupsValides = new ArrayList<>();
         for (int ligne = 1; ligne <= 8; ligne++) {
             for (char colonne = 'A'; colonne <= 'H'; colonne++) {
                 String coup = ligne + "" + colonne;
-                if (partie.coupValidePour(coup, couleur)) {
+                if (partieOthello.coupValidePour(coup, couleur)) {
                     coupsValides.add(coup);
                 }
             }
@@ -46,35 +46,35 @@ public class StrategieMinimax implements StrategieIA {
     /**
      * Implémente l'algorithme Minimax pour évaluer un coup.
      *
-     * @param partie     la partie en cours
+     * @param partieOthello     la partie en cours
      * @param estMax     {@code true} si on maximise le score, {@code false} sinon
      * @param couleurIA  la couleur de l'IA
      * @param profondeur la profondeur de recherche
      * @return le score évalué pour la position
      */
-    public int minimax(Partie partie, boolean estMax, String couleurIA, int profondeur) {
-        if (profondeur == 0 || partie.getPlateau().partieEstFinie()) {
-            return evaluerPlateau(couleurIA,partie.getPlateau()); // Fonction d'évaluation
+    public int minimax(PartieOthello partieOthello, boolean estMax, String couleurIA, int profondeur) {
+        if (profondeur == 0 || partieOthello.getPlateau().partieEstFinie()) {
+            return evaluerPlateau(couleurIA, partieOthello.getPlateau()); // Fonction d'évaluation
         }
         String couleurAdverse = couleurIA.equals("⚫") ? "⚪" : "⚫";
 
         if (estMax) {
             int meilleurScore = Integer.MIN_VALUE;
-            for (String coup : getTousLesCoupsValidesPour(partie, couleurIA)) {
-                Partie copiePartie = partie.copier();
-                copiePartie.jouerCoup(coup);
-                copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-                int score = minimax(copiePartie, false, couleurIA, profondeur - 1);
+            for (String coup : getTousLesCoupsValidesPour(partieOthello, couleurIA)) {
+                PartieOthello copiePartieOthello = partieOthello.copier();
+                copiePartieOthello.jouerCoup(coup);
+                copiePartieOthello.setJoueurCourant(copiePartieOthello.LejoueurSuivant());
+                int score = minimax(copiePartieOthello, false, couleurIA, profondeur - 1);
                 meilleurScore = Math.max(meilleurScore, score);
             }
             return meilleurScore;
         } else {
             int pireScore = Integer.MAX_VALUE;
-            for (String coup : getTousLesCoupsValidesPour(partie, couleurAdverse)) {
-                Partie copiePartie = partie.copier();
-                copiePartie.jouerCoup(coup);
-                copiePartie.setJoueurCourant(copiePartie.LejoueurSuivant());
-                int score = minimax(copiePartie, true, couleurIA, profondeur - 1);
+            for (String coup : getTousLesCoupsValidesPour(partieOthello, couleurAdverse)) {
+                PartieOthello copiePartieOthello = partieOthello.copier();
+                copiePartieOthello.jouerCoup(coup);
+                copiePartieOthello.setJoueurCourant(copiePartieOthello.LejoueurSuivant());
+                int score = minimax(copiePartieOthello, true, couleurIA, profondeur - 1);
                 pireScore = Math.min(pireScore, score);
             }
             return pireScore;

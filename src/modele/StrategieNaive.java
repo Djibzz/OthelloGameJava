@@ -7,12 +7,12 @@ import java.util.Random;
 public class StrategieNaive implements StrategieIA {
 
     @Override
-    public String choisirCoup(Partie partie, String couleur) {
+    public String choisirCoup(PartieOthello partieOthello, String couleur) {
         List<String> coupsValides = new ArrayList<>();
         for (int ligne = 1; ligne <= 8; ligne++) {
             for (char colonne = 'A'; colonne <= 'H'; colonne++) {
                 String coup = ligne + "" + colonne;
-                if (partie.coupValidePour(coup, couleur)) {
+                if (partieOthello.coupValidePour(coup, couleur)) {
                     coupsValides.add(coup);
                 }
             }

@@ -7,9 +7,9 @@ public interface StrategieIA {
     /**
      * Choisit un coup à jouer dans la partie.
      *
-     * @param partie la partie en cours
+     * @param partieOthello la partie en cours
      * @param couleur la couleur de l'IA ("⚫" ou "⚪")
      * @return le coup choisi (ex : "3C")
      */
-    String choisirCoup(Partie partie, String couleur);
+    String choisirCoup(PartieOthello partieOthello, String couleur);
 }

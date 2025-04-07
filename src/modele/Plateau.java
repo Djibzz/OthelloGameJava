@@ -7,7 +7,7 @@ package modele;
  */
 public class Plateau {
 
-    private static final int taille = 8; // Taille du plateau 8x8
+    private  int taille1 ,taille2 ;
     private String[][] tableau;
 
     /**
@@ -32,17 +32,19 @@ public class Plateau {
      * Constructeur par défaut.
      * Initialise le plateau et le remplit avec des cases vides, puis place les pions de départ.
      */
-    public Plateau() {
-        tableau = new String[taille][taille];
-        InitialisationTableau();
+    public Plateau(int t1,int t2) {
+        this.tableau = new String[t1][t2];
+        this.taille1=t1;
+        this.taille2=t2;
+
     }
 
     /**
      * Initialise le plateau avec des cases vides et positionne les pions de départ.
      */
     public void InitialisationTableau() {
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
+        for (int i = 0; i < taille1; i++) {
+            for (int j = 0; j < taille2; j++) {
                 tableau[i][j] = "\uD83D\uDFE9"; // Cases vides
             }
         }
@@ -101,8 +103,8 @@ public class Plateau {
      * @return {@code true} si le plateau est rempli, {@code false} sinon
      */
     public boolean partieEstFinie() {
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
+        for (int i = 0; i < taille1; i++) {
+            for (int j = 0; j < taille2; j++) {
                 if (tableau[i][j].equals("\uD83D\uDFE9")) {
                     return false;
                 }
@@ -117,28 +119,14 @@ public class Plateau {
      * @return une nouvelle instance de Plateau avec le même état que l'original
      */
     public Plateau copier() {
-        Plateau copie = new Plateau();
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
+        Plateau copie = new Plateau(8,8);
+        for (int i = 0; i < taille1; i++) {
+            for (int j = 0; j < taille2; j++) {
                 copie.getTableau()[i][j] = new String(this.tableau[i][j]);
             }
         }
         return copie;
     }
 
-    /**
-     * Initialise le plateau en mode debug avec un état prédéfini pour les tests.
-     */
-    public void initialiserPlateauDebug() {
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
-                tableau[i][j] = "🟩";  // Case vide
-            }
-        }
-        tableau[4][2] = "⚫";
-        tableau[4][3] = "⚫";
-        tableau[4][4] = "⚫";
-        tableau[5][3] = "⚫";
-        tableau[5][4] = "⚪";
-    }
+
 }
