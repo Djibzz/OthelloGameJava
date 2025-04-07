@@ -68,6 +68,11 @@ public class Ihm {
         System.out.println(nomJoueur + ", entrez votre coup (ex: 3C) ou 'P' pour passer : ");
         return scanner.nextLine().toUpperCase();
     }
+    public String demanderChoixJeu() {
+        System.out.println("Quel jeu voulez-vous lancer ? (Othello / Awale)");
+        return scanner.nextLine();
+    }
+
 
     /**
      * Affiche un message texte à l'utilisateur.

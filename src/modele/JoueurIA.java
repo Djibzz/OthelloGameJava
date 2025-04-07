@@ -2,7 +2,6 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * La classe {@code JoueurIA} représente une IA naïve qui joue à l'Othello.
@@ -22,15 +21,15 @@ public class JoueurIA extends Joueur {
     /**
      * Obtient la liste de tous les coups valides pour la partie donnée.
      *
-     * @param partie la partie en cours
+     * @param partieOthello la partie en cours
      * @return la liste des coups valides
      */
-    public List<String> obtenirCoupsValides(Partie partie) {
+    public List<String> obtenirCoupsValides(PartieOthello partieOthello) {
         List<String> coupsValides = new ArrayList<>();
         for (int ligne = 1; ligne <= 8; ligne++) { // Lignes de 1 à 8
             for (char colonne = 'A'; colonne <= 'H'; colonne++) { // Colonnes de A à H
                 String coup = ligne + "" + colonne;
-                if (partie.coupValide(coup)) {
+                if (partieOthello.coupValide(coup)) {
                     coupsValides.add(coup);
                 }
             }
@@ -45,13 +44,13 @@ public class JoueurIA extends Joueur {
         this.strategie = strategie;
     }
 
-    public String jouerCoup(Partie partie) {
-        String couleur = this.equals(partie.getJoueurs()[0]) ? "⚫" : "⚪";
-        String coup = strategie.choisirCoup(partie, couleur);
+    public String jouerCoup(PartieOthello partieOthello) {
+        String couleur = this.equals(partieOthello.getJoueurs()[0]) ? "⚫" : "⚪";
+        String coup = strategie.choisirCoup(partieOthello, couleur);
         if (coup != null) {
-            partie.jouerCoup(coup);
+            partieOthello.jouerCoup(coup);
         } else {
-            partie.jouerCoup("P");
+            partieOthello.jouerCoup("P");
         }
         return coup;
     }

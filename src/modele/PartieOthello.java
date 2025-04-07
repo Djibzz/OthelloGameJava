@@ -8,9 +8,7 @@ import java.util.List;
  * Elle contient les joueurs, le plateau, et la logique pour jouer un coup,
  * vérifier la validité d'un coup, déterminer les encadrements et la fin de la partie.
  */
-public class Partie {
-
-    private Joueur joueurCourant;
+public class PartieOthello extends PartieAbstraite{
     private Joueur[] joueurs = new Joueur[2];
     private Plateau plateau;
     private static final String Noir = "⚫";
@@ -19,14 +17,15 @@ public class Partie {
     /**
      * Constructeur d'une partie.
      *
-     * @param joueur1 le premier joueur (Noir)
-     * @param joueur2 le second joueur (Blanc)
+     * @param j1 le premier joueur (Noir)
+     * @param j2 le second joueur (Blanc)
      */
-    public Partie(Joueur joueur1, Joueur joueur2) {
-        this.joueurCourant = joueur1;
-        joueurs[0] = joueur1;
-        joueurs[1] = joueur2;
-        plateau = new Plateau();
+    public PartieOthello(Joueur j1, Joueur j2) {
+        super(j1, j2);
+        joueurs[0] = j1;
+        joueurs[1] = j2;
+        plateau = new Plateau(8,8);
+        plateau.InitialisationTableau();
     }
 
     /**
@@ -344,8 +343,8 @@ public class Partie {
      *
      * @return une nouvelle instance de Partie avec le même état que l'original
      */
-    public Partie copier() {
-        Partie copie = new Partie(this.joueurs[0].copier(), this.joueurs[1].copier());
+    public PartieOthello copier() {
+        PartieOthello copie = new PartieOthello(this.joueurs[0].copier(), this.joueurs[1].copier());
         copie.setJoueurCourant(this.getJoueurCourant());
         String[][] tableauOriginal = this.plateau.getTableau();
         String[][] tableauCopie = new String[8][8];
