@@ -87,5 +87,10 @@ public class ControleurOthello extends ControleurAbstrait {
             ihm.afficherMessage("Match nul !");
         }
     }
+    @Override
+    protected void afficherPlateau() {
+        ihm.afficherPlateauOthello(((PlateauOthello) partie.getPlateau()).getTableau());
+    }
+
 
 }

@@ -33,7 +33,7 @@ public class PartieAwale extends PartieAbstraite {
         }
     }
 
-    @Override
+
     public void jouerCoup(String coup) {
         int ligne = (joueurCourant == joueur1) ? 0 : 1;
         int col = Integer.parseInt(coup) - 1;
@@ -41,17 +41,48 @@ public class PartieAwale extends PartieAbstraite {
         plateau.setGraines(ligne, col, 0);
 
         int i = ligne, j = col;
+        int origineLigne = ligne;
+        int origineCol = col;
+        boolean origineIgnoree = false;
+
         while (graines > 0) {
             j++;
             if (j > 5) {
                 j = 0;
                 i = 1 - i;
             }
-            if (i == ligne && j == col) continue;
+
+            // Sauter la case d'origine UNE SEULE FOIS
+            if (!origineIgnoree && i == origineLigne && j == origineCol) {
+                origineIgnoree = true;
+                continue; // graines-- est volontairement ignoré ici
+            }
+
             plateau.setGraines(i, j, plateau.getGraines(i, j) + 1);
             graines--;
         }
+
+        // Captures dans le camp adverse (si la dernière graine tombe chez l'adversaire)
+        int campAdverse = (ligne == 0) ? 1 : 0;
+        int grainesCapturees = 0;
+
+        if (i == campAdverse) {
+            while (j >= 0) {
+                int nb = plateau.getGraines(i, j);
+                if (nb == 2 || nb == 3) {
+                    grainesCapturees += nb;
+                    plateau.setGraines(i, j, 0);
+                } else {
+                    break;
+                }
+                j--;
+            }
+            ((JoueurAwale) joueurCourant).ajouterAuGrenier(grainesCapturees);
+        }
     }
+
+
+
 
     @Override
     public PlateauJeu getPlateau() {
@@ -60,10 +91,17 @@ public class PartieAwale extends PartieAbstraite {
 
     @Override
     public JoueurAbstrait getGagnant() {
-        int score1 = plateau.totalGraines(0);
-        int score2 = plateau.totalGraines(1);
-        if (score1 > score2) return joueur1;
-        if (score2 > score1) return joueur2;
+        int score1 = ((JoueurAwale) joueur1).getGrenier();
+        int score2 = ((JoueurAwale) joueur2).getGrenier();
+
+        if (score1 > score2) {
+            joueur1.gagne();
+            return joueur1;
+        } else if (score2 > score1) {
+            joueur2.gagne();
+            return joueur2;
+        }
         return null;
     }
+
 }

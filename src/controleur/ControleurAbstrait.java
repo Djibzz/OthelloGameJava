@@ -11,7 +11,7 @@ public abstract class ControleurAbstrait {
         do {
             initialiser();
             while (!partie.partieEstFinie()) {
-                ihm.afficherPlateau(partie.getPlateau().getTableau());
+                afficherPlateau();
                  JoueurAbstrait  joueur = partie.getJoueurCourant();
                 ihm.afficherJoueurCourant(joueur.getPseudo());
 
@@ -35,4 +35,6 @@ public abstract class ControleurAbstrait {
     protected abstract void traiterTour();
     protected abstract void afficherResultat();
     protected abstract void afficherResultatPartie();
+    protected abstract void afficherPlateau();
+
 }

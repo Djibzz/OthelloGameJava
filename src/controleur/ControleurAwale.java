@@ -68,4 +68,17 @@ public class ControleurAwale extends ControleurAbstrait {
             ihm.afficherMessage("Match nul !");
         }
     }
+    @Override
+    protected void afficherPlateau() {
+        int[][] tableau = ((PlateauAwale) partie.getPlateau()).getTableau();
+        JoueurAwale j1 = (JoueurAwale) partie.getJoueurs()[0];
+        JoueurAwale j2 = (JoueurAwale) partie.getJoueurs()[1];
+
+
+        int[] greniers = { j2.getGrenier(), j1.getGrenier() };
+
+        ihm.afficherPlateauAwale(tableau, greniers);
+    }
+
+
 }

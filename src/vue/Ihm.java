@@ -31,40 +31,28 @@ public class Ihm {
         return scanner.nextLine();
     }
 
-    /**
-     * Affiche le plateau de jeu à l'écran.
-     *
-     * @param plateau un tableau à deux dimensions représentant le plateau
-     */
-    public void afficherPlateau(Object plateau) {
-        if (plateau instanceof String[][] tableauOthello) {
-            afficherPlateauOthello(tableauOthello);
-        } else if (plateau instanceof int[][] tableauAwale) {
-            afficherPlateauAwale(tableauAwale);
-        } else {
-            afficherMessage("Format de plateau inconnu.");
-        }
-    }
-    public void afficherPlateauAwale(int[][] plateau) {
-        System.out.println("     A   B   C   D   E   F");
-        System.out.println("  ----------------------------");
+    public void afficherPlateauAwale(int[][] plateau, int[] greniers) {
+        System.out.println("       6     5     4     3     2     1");
+        System.out.println("     *-----*-----*-----*-----*-----*-----*");
 
-
-        System.out.print("J2 | ");
+        System.out.print("     |");
         for (int j = 5; j >= 0; j--) {
-            System.out.printf("%-3d", plateau[1][j]);
+            System.out.printf(" %2d  |", plateau[0][j]);
         }
-        System.out.println("|");
+        System.out.println("  J2: " + greniers[1]);
 
+        System.out.println("     *-----*-----*-----*-----*-----*-----*");
 
-        System.out.print("J1 | ");
+        System.out.print("     |");
         for (int j = 0; j < 6; j++) {
-            System.out.printf("%-3d", plateau[0][j]);
+            System.out.printf(" %2d  |", plateau[1][j]);
         }
-        System.out.println("|");
+        System.out.println("  J1: " + greniers[0]);
 
-        System.out.println("  ----------------------------");
+        System.out.println("     *-----*-----*-----*-----*-----*-----*");
+        System.out.println("       1     2     3     4     5     6\n");
     }
+
 
 
     public void afficherPlateauOthello(String[][] tableau) {
