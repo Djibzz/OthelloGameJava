@@ -36,12 +36,12 @@ public class Ihm {
      *
      * @param tableau un tableau à deux dimensions représentant le plateau
      */
-    public void afficherPlateau(String[][] tableau) {
+    public void afficherPlateauOthello(String[][] tableau) {
         System.out.println("   A  B  C  D   E  F  G  H  ");
         System.out.println("  -----------------------------");
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < tableau.length; i++) {
             System.out.print((i + 1) + " | ");
-            for (int j = 0; j < 8; j++) {
+            for (int j = 0; j < tableau[0].length; j++) {
                 System.out.print(tableau[i][j] + " ");
             }
             System.out.println("|");

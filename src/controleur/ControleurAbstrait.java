@@ -7,22 +7,27 @@ public abstract class ControleurAbstrait {
     protected Ihm ihm = new Ihm();
 
     public final void jouerPartie() {
-        initialiser();
-        while (!partie.partieEstFinie()) {
-            ihm.afficherPlateau( partie.getPlateau().getTableau());
-            Joueur joueur = partie.getJoueurCourant();
-            ihm.afficherJoueurCourant(joueur.getPseudo());
+        boolean rejouer;
+        do {
+            initialiser();
+            while (!partie.partieEstFinie()) {
+                ihm.afficherPlateauOthello(partie.getPlateau().getTableau());
+                Joueur joueur = partie.getJoueurCourant();
+                ihm.afficherJoueurCourant(joueur.getPseudo());
 
-            if (partie.peutJouer(joueur)) {
-                traiterTour();
-            } else {
-                ihm.afficherMessage("Aucun coup possible. Tour passé.");
+                if (partie.peutJouer(joueur)) {
+                    traiterTour();
+                } else {
+                    ihm.afficherMessage("Aucun coup possible. Tour passé.");
+                }
+
+                partie.changerJoueur();
             }
+            afficherResultat();
 
-            partie.changerJoueur();
-        }
-
-         afficherResultat();
+            rejouer = ihm.demanderRejouer();
+        }while(rejouer);
+        ihm.fermerScanner();
     }
 
     protected abstract void initialiser();
