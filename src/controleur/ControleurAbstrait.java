@@ -11,7 +11,7 @@ public abstract class ControleurAbstrait {
         do {
             initialiser();
             while (!partie.partieEstFinie()) {
-                ihm.afficherPlateauOthello(partie.getPlateau().getTableau());
+                ihm.afficherPlateau(partie.getPlateau().getTableau());
                  JoueurAbstrait  joueur = partie.getJoueurCourant();
                 ihm.afficherJoueurCourant(joueur.getPseudo());
 

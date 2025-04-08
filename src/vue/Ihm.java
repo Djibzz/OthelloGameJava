@@ -34,8 +34,34 @@ public class Ihm {
     /**
      * Affiche le plateau de jeu à l'écran.
      *
-     * @param tableau un tableau à deux dimensions représentant le plateau
+     * @param plateau un tableau à deux dimensions représentant le plateau
      */
+    public void afficherPlateau(Object plateau) {
+        if (plateau instanceof String[][] tableauOthello) {
+            afficherPlateauOthello(tableauOthello);
+        } else if (plateau instanceof int[][] tableauAwale) {
+            afficherPlateauAwale(tableauAwale);
+        } else {
+            afficherMessage("Format de plateau inconnu.");
+        }
+    }
+    public void afficherPlateauAwale(int[][] tableau) {
+        System.out.println("     A  B  C  D  E  F");
+        System.out.println("  -----------------------");
+        System.out.print("Joueur 2 | ");
+        for (int j = 5; j >= 0; j--) {
+            System.out.print(tableau[1][j] + " ");
+        }
+        System.out.println("|");
+
+        System.out.print("Joueur 1 | ");
+        for (int j = 0; j < 6; j++) {
+            System.out.print(tableau[0][j] + " ");
+        }
+        System.out.println("|");
+        System.out.println("  -----------------------");
+    }
+
     public void afficherPlateauOthello(String[][] tableau) {
         System.out.println("   A  B  C  D   E  F  G  H  ");
         System.out.println("  -----------------------------");
