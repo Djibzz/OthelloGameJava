@@ -1,4 +1,5 @@
 package modele;
-
-public class PartieAwale {
+/**
+public class PartieAwale extends PartieAbstraite {
 }
+**/

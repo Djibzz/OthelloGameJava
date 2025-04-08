@@ -7,8 +7,8 @@ import java.util.List;
  * La classe {@code JoueurIA} représente une IA naïve qui joue à l'Othello.
  * Elle hérite de {@code Joueur} et implémente une stratégie de jeu aléatoire.
  */
-public class JoueurIA extends Joueur {
-
+public class JoueurIA extends JoueurOthello {
+    private StrategieIA strategie;
     /**
      * Constructeur de l'IA naïve.
      *
@@ -16,6 +16,12 @@ public class JoueurIA extends Joueur {
      */
     public JoueurIA(String pseudo) {
         super(pseudo);
+    }
+
+
+    public JoueurIA(String pseudo, StrategieIA strategie) {
+        super(pseudo);
+        this.strategie = strategie;
     }
 
     /**
@@ -37,12 +43,6 @@ public class JoueurIA extends Joueur {
         return coupsValides;
     }
 
-    private StrategieIA strategie;
-
-    public JoueurIA(String pseudo, StrategieIA strategie) {
-        super(pseudo);
-        this.strategie = strategie;
-    }
 
     public String jouerCoup(PartieOthello partieOthello) {
         String couleur = this.equals(partieOthello.getJoueurs()[0]) ? "⚫" : "⚪";

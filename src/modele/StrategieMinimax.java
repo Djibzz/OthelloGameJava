@@ -20,7 +20,7 @@ public class StrategieMinimax implements StrategieIA {
         for (String coup : coups) {
             PartieOthello copie = partieOthello.copier();
             copie.jouerCoup(coup);
-            copie.setJoueurCourant(copie.LejoueurSuivant());
+            copie.setJoueurCourant(copie.leJoueurSuivant());
             int score = minimax(copie, false, couleur, profondeur);
             if (score > meilleurScore) {
                 meilleurScore = score;
@@ -63,7 +63,7 @@ public class StrategieMinimax implements StrategieIA {
             for (String coup : getTousLesCoupsValidesPour(partieOthello, couleurIA)) {
                 PartieOthello copiePartieOthello = partieOthello.copier();
                 copiePartieOthello.jouerCoup(coup);
-                copiePartieOthello.setJoueurCourant(copiePartieOthello.LejoueurSuivant());
+                copiePartieOthello.setJoueurCourant(copiePartieOthello.leJoueurSuivant());
                 int score = minimax(copiePartieOthello, false, couleurIA, profondeur - 1);
                 meilleurScore = Math.max(meilleurScore, score);
             }
@@ -73,7 +73,7 @@ public class StrategieMinimax implements StrategieIA {
             for (String coup : getTousLesCoupsValidesPour(partieOthello, couleurAdverse)) {
                 PartieOthello copiePartieOthello = partieOthello.copier();
                 copiePartieOthello.jouerCoup(coup);
-                copiePartieOthello.setJoueurCourant(copiePartieOthello.LejoueurSuivant());
+                copiePartieOthello.setJoueurCourant(copiePartieOthello.leJoueurSuivant());
                 int score = minimax(copiePartieOthello, true, couleurIA, profondeur - 1);
                 pireScore = Math.min(pireScore, score);
             }

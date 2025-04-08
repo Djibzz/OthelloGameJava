@@ -12,7 +12,7 @@ public abstract class ControleurAbstrait {
             initialiser();
             while (!partie.partieEstFinie()) {
                 ihm.afficherPlateauOthello(partie.getPlateau().getTableau());
-                Joueur joueur = partie.getJoueurCourant();
+                 JoueurAbstrait  joueur = partie.getJoueurCourant();
                 ihm.afficherJoueurCourant(joueur.getPseudo());
 
                 if (partie.peutJouer(joueur)) {
@@ -23,14 +23,16 @@ public abstract class ControleurAbstrait {
 
                 partie.changerJoueur();
             }
-            afficherResultat();
+            afficherResultatPartie();
 
             rejouer = ihm.demanderRejouer();
         }while(rejouer);
+        afficherResultat();
         ihm.fermerScanner();
     }
 
     protected abstract void initialiser();
     protected abstract void traiterTour();
     protected abstract void afficherResultat();
+    protected abstract void afficherResultatPartie();
 }
