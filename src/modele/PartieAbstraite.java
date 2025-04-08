@@ -69,5 +69,5 @@ public abstract class PartieAbstraite {
 
     public abstract boolean coupValide(String coup);
 
-    public abstract Plateau getPlateau();
+    public abstract PlateauOthello getPlateau();
 }

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PartieOthello extends PartieAbstraite {
-    private Plateau plateau;
+    private PlateauOthello plateauOthello;
     private static final String Noir = "⚫";
     private static final String Blanc = "⚪";
 
     public PartieOthello(JoueurOthello j1, JoueurOthello j2) {
         super(j1, j2);
         this.joueurs = new JoueurAbstrait[]{j1, j2};
-        this.plateau = new Plateau(8, 8);
-        plateau.InitialisationTableau();
+        this.plateauOthello = new PlateauOthello(8, 8);
+        plateauOthello.InitialisationTableau();
     }
 
     @Override
@@ -29,8 +29,8 @@ public class PartieOthello extends PartieAbstraite {
     }
 
     @Override
-    public Plateau getPlateau() {
-        return plateau;
+    public PlateauOthello getPlateau() {
+        return plateauOthello;
     }
 
     public JoueurOthello leJoueurSuivant() {
@@ -54,7 +54,7 @@ public class PartieOthello extends PartieAbstraite {
 
     public JoueurOthello gagnantDeLaPartie() {
         int nbNoir = 0, nbBlanc = 0;
-        for (String[] ligne : plateau.getTableau()) {
+        for (String[] ligne : plateauOthello.getTableau()) {
             for (String p : ligne) {
                 if (p.equals(Noir)) nbNoir++;
                 else if (p.equals(Blanc)) nbBlanc++;
@@ -73,7 +73,7 @@ public class PartieOthello extends PartieAbstraite {
 
     @Override
     public boolean coupValide(String coup) {
-        int[] coords = plateau.inputVersCoordonnes(coup);
+        int[] coords = plateauOthello.inputVersCoordonnes(coup);
         int ligne = coords[0], colonne = coords[1];
 
         if (ligne == -1 && colonne == -1) {
@@ -82,7 +82,7 @@ public class PartieOthello extends PartieAbstraite {
             return false;
         }
 
-        if (!plateau.getTableau()[ligne][colonne].equals("🟩")) {
+        if (!plateauOthello.getTableau()[ligne][colonne].equals("🟩")) {
             return false;
         }
 
@@ -106,7 +106,7 @@ public class PartieOthello extends PartieAbstraite {
             boolean encadrement = false;
 
             while (x >= 0 && x < 8 && y >= 0 && y < 8) {
-                String caseActuelle = plateau.getTableau()[x][y];
+                String caseActuelle = plateauOthello.getTableau()[x][y];
                 if (caseActuelle.equals("🟩")) break;
                 if (caseActuelle.equals(couleurAdverse)) encadrement = true;
                 else if (caseActuelle.equals(couleurJoueur) && encadrement) {
@@ -134,7 +134,7 @@ public class PartieOthello extends PartieAbstraite {
     }
 
     public boolean passerSonTour(String coup) {
-        int[] coords = plateau.inputVersCoordonnes(coup);
+        int[] coords = plateauOthello.inputVersCoordonnes(coup);
         return coords[0] == -1 && coords[1] == -1;
     }
 
@@ -142,7 +142,7 @@ public class PartieOthello extends PartieAbstraite {
     public boolean partieEstFinie() {
         boolean aucunCoup = !peutJouer(joueurs[0]) && !peutJouer(joueurs[1]);
 
-        for (String[] ligne : plateau.getTableau()) {
+        for (String[] ligne : plateauOthello.getTableau()) {
             for (String p : ligne) {
                 if (p.equals("🟩")) return false;
             }
@@ -156,21 +156,21 @@ public class PartieOthello extends PartieAbstraite {
         if (passerSonTour(coup)) return;
         if (!coupValide(coup)) return;
 
-        int[] coords = plateau.inputVersCoordonnes(coup);
+        int[] coords = plateauOthello.inputVersCoordonnes(coup);
         int ligne = coords[0], colonne = coords[1];
         List<int[]> directions = getEncadrements(ligne, colonne);
         String couleurJoueur = (getJoueurCourant().equals(joueurs[0])) ? Noir : Blanc;
         String couleurAdverse = couleurJoueur.equals(Noir) ? Blanc : Noir;
 
-        plateau.getTableau()[ligne][colonne] = couleurJoueur;
+        plateauOthello.getTableau()[ligne][colonne] = couleurJoueur;
 
         for (int[] dir : directions) {
             int x = ligne + dir[0], y = colonne + dir[1];
             while (x >= 0 && x < 8 && y >= 0 && y < 8) {
-                String caseActuelle = plateau.getTableau()[x][y];
+                String caseActuelle = plateauOthello.getTableau()[x][y];
                 if (caseActuelle.equals("🟩")) break;
                 if (caseActuelle.equals(couleurAdverse)) {
-                    plateau.getTableau()[x][y] = couleurJoueur;
+                    plateauOthello.getTableau()[x][y] = couleurJoueur;
                 } else if (caseActuelle.equals(couleurJoueur)) break;
                 x += dir[0]; y += dir[1];
             }
@@ -191,13 +191,13 @@ public class PartieOthello extends PartieAbstraite {
     }
 
     public boolean coupValidePour(String coup, String couleurJoueur) {
-        int[] coords = plateau.inputVersCoordonnes(coup);
+        int[] coords = plateauOthello.inputVersCoordonnes(coup);
         int ligne = coords[0], colonne = coords[1];
 
         if (ligne == -1 && colonne == -1) {
             return false; // On ne considère pas le passage de tour ici
         }
-        if (!plateau.getTableau()[ligne][colonne].equals("\uD83D\uDFE9")) {
+        if (!plateauOthello.getTableau()[ligne][colonne].equals("\uD83D\uDFE9")) {
             return false; // Case déjà occupée
         }
         return !getEncadrementsPour(ligne, colonne, couleurJoueur).isEmpty();
@@ -227,7 +227,7 @@ public class PartieOthello extends PartieAbstraite {
             boolean pionAdverseTrouve = false;
 
             while (x >= 0 && x < 8 && y >= 0 && y < 8) {
-                String caseActuelle = plateau.getTableau()[x][y];
+                String caseActuelle = plateauOthello.getTableau()[x][y];
 
                 if (caseActuelle.equals("\uD83D\uDFE9"))
                     break;
@@ -252,12 +252,12 @@ public class PartieOthello extends PartieAbstraite {
         JoueurOthello j2 = ((JoueurOthello) joueurs[1]).copier();
         PartieOthello copie = new PartieOthello(j1, j2);
         copie.setJoueurCourant(this.getJoueurCourant());
-        String[][] plateauOriginal = this.plateau.getTableau();
+        String[][] plateauOriginal = this.plateauOthello.getTableau();
         String[][] plateauCopie = new String[8][8];
         for (int i = 0; i < 8; i++) {
             System.arraycopy(plateauOriginal[i], 0, plateauCopie[i], 0, 8);
         }
-        copie.plateau = new Plateau(plateauCopie);
+        copie.plateauOthello = new PlateauOthello(plateauCopie);
         return copie;
     }
 }

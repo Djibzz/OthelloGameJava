@@ -1,11 +1,11 @@
 package modele;
 
 /**
- * La classe {@code Plateau} représente le plateau de jeu d'Othello.
+ * La classe {@code PlateauOthello} représente le plateau de jeu d'Othello.
  * Elle gère l'initialisation du plateau, la conversion des entrées utilisateur en coordonnées,
  * l'évaluation du plateau pour l'algorithme Minimax et la copie du plateau.
  */
-public class Plateau {
+public class PlateauOthello implements PlateauJeu {
 
     private  int taille1 ,taille2 ;
     private String[][] tableau;
@@ -24,7 +24,7 @@ public class Plateau {
      *
      * @param tableauCopie le tableau de copie
      */
-    public Plateau(String[][] tableauCopie) {
+    public PlateauOthello(String[][] tableauCopie) {
         this.tableau = tableauCopie;
     }
 
@@ -40,7 +40,7 @@ public class Plateau {
      * Constructeur par défaut.
      * Initialise le plateau et le remplit avec des cases vides, puis place les pions de départ.
      */
-    public Plateau(int t1,int t2) {
+    public PlateauOthello(int t1, int t2) {
         this.tableau = new String[t1][t2];
         this.taille1=t1;
         this.taille2=t2;
@@ -124,10 +124,10 @@ public class Plateau {
     /**
      * Crée une copie du plateau.
      *
-     * @return une nouvelle instance de Plateau avec le même état que l'original
+     * @return une nouvelle instance de PlateauOthello avec le même état que l'original
      */
-    public Plateau copier() {
-        Plateau copie = new Plateau(8,8);
+    public PlateauOthello copier() {
+        PlateauOthello copie = new PlateauOthello(8,8);
         for (int i = 0; i < taille1; i++) {
             for (int j = 0; j < taille2; j++) {
                 copie.getTableau()[i][j] = new String(this.tableau[i][j]);

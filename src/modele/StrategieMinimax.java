@@ -82,18 +82,18 @@ public class StrategieMinimax implements StrategieIA {
     }
 
     /**
-     * Évalue le plateau pour une couleur donnée.
+     * Évalue le plateauOthello pour une couleur donnée.
      * Les pions dans les coins, sur les bords et ailleurs sont valorisés différemment.
      * Si la partie est finie, retourne une valeur très élevée ou très basse.
      *
      * @param couleurJoueur la couleur à évaluer ("⚫" ou "⚪")
-     * @return le score du plateau pour la couleur donnée
+     * @return le score du plateauOthello pour la couleur donnée
      */
-    public int evaluerPlateau(String couleurJoueur,Plateau plateau) {
+    public int evaluerPlateau(String couleurJoueur, PlateauOthello plateauOthello) {
         int score = 0;
         int nbPionsJoueur = 0, nbPionsAdversaire = 0;
         String couleurAdverse = couleurJoueur.equals("⚫") ? "⚪" : "⚫";
-        String[][] tableau = plateau.getTableau();
+        String[][] tableau = plateauOthello.getTableau();
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -112,7 +112,7 @@ public class StrategieMinimax implements StrategieIA {
                 }
             }
         }
-        if (plateau.partieEstFinie()) {
+        if (plateauOthello.partieEstFinie()) {
             if (nbPionsJoueur > nbPionsAdversaire) {
                 return 10000;
             } else if (nbPionsJoueur < nbPionsAdversaire) {
