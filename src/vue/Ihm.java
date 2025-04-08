@@ -45,25 +45,30 @@ public class Ihm {
             afficherMessage("Format de plateau inconnu.");
         }
     }
-    public void afficherPlateauAwale(int[][] tableau) {
-        System.out.println("     A  B  C  D  E  F");
-        System.out.println("  -----------------------");
-        System.out.print("Joueur 2 | ");
+    public void afficherPlateauAwale(int[][] plateau) {
+        System.out.println("     A   B   C   D   E   F");
+        System.out.println("  ----------------------------");
+
+
+        System.out.print("J2 | ");
         for (int j = 5; j >= 0; j--) {
-            System.out.print(tableau[1][j] + " ");
+            System.out.printf("%-3d", plateau[1][j]);
         }
         System.out.println("|");
 
-        System.out.print("Joueur 1 | ");
+
+        System.out.print("J1 | ");
         for (int j = 0; j < 6; j++) {
-            System.out.print(tableau[0][j] + " ");
+            System.out.printf("%-3d", plateau[0][j]);
         }
         System.out.println("|");
-        System.out.println("  -----------------------");
+
+        System.out.println("  ----------------------------");
     }
 
+
     public void afficherPlateauOthello(String[][] tableau) {
-        System.out.println("   A  B  C  D   E  F  G  H  ");
+        System.out.println("   A B C D  E F G H ");
         System.out.println("  -----------------------------");
         for (int i = 0; i < tableau.length; i++) {
             System.out.print((i + 1) + " | ");
@@ -90,10 +95,11 @@ public class Ihm {
      * @param nomJoueur le nom du joueur concerné
      * @return la chaîne représentant le coup (ex : "3C" ou "P")
      */
-    public String demanderCoup(String nomJoueur) {
-        System.out.println(nomJoueur + ", entrez votre coup (ex: 3C) ou 'P' pour passer : ");
-        return scanner.nextLine().toUpperCase();
+    public String demanderCoup(String nomJoueur, String formatAttendu) {
+        System.out.print(nomJoueur + ", entrez votre coup " + formatAttendu + " : ");
+        return scanner.nextLine().trim();
     }
+
     public String demanderChoixJeu() {
         System.out.println("Quel jeu voulez-vous lancer ? (Othello / Awale)");
         return scanner.nextLine();

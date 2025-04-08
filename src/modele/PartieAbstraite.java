@@ -59,7 +59,6 @@ public abstract class PartieAbstraite {
     }
 
 
-    // Méthodes abstraites à implémenter dans les classes spécifiques
 
     public abstract boolean partieEstFinie();
 
@@ -69,5 +68,9 @@ public abstract class PartieAbstraite {
 
     public abstract boolean coupValide(String coup);
 
-    public abstract PlateauOthello getPlateau();
+    public abstract PlateauJeu getPlateau();
+
+    public abstract JoueurAbstrait getGagnant();
+
+
 }

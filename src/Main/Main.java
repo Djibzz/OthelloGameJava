@@ -22,13 +22,15 @@ public class Main {
         if (choixJeu.equalsIgnoreCase("othello")) {
             controleur = new ControleurOthello();
         } else if (choixJeu.equalsIgnoreCase("awale")) {
-            //controleur = new ControleurAwale();
+            controleur = new ControleurAwale();
         } else {
             ihm.afficherMessage("Jeu non reconnu. Fin du programme.");
             return;
         }
 
-        controleur.jouerPartie();
+        if (controleur != null) {
+            controleur.jouerPartie();
+        }
     }
 }
 

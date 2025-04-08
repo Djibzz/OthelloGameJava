@@ -26,7 +26,7 @@ public class ControleurOthello extends ControleurAbstrait {
             joueur2 = new JoueurOthello(ihm.demanderNom(2));
 
 
-        this.partie = new PartieOthello((JoueurOthello) joueur1, (JoueurOthello) joueur2);
+        this.partie = new PartieOthello(joueur1,  joueur2);
     }
 
     @Override
@@ -41,7 +41,8 @@ public class ControleurOthello extends ControleurAbstrait {
             String coup;
             boolean coupValide;
             do {
-                coup = ihm.demanderCoup(courant.getPseudo());
+                coup = ihm.demanderCoup(courant.getPseudo(), "(ex: 3C) ou 'P' pour passer");
+
                 try {
                     coupValide = partie.coupValide(coup);
                     if (!coupValide) {
@@ -72,20 +73,19 @@ public class ControleurOthello extends ControleurAbstrait {
 
     @Override
     public void afficherResultat() {
-        PartieOthello partieOthello = (PartieOthello) partie;
-        JoueurOthello gagnant = partieOthello.gagnant();
+        JoueurAbstrait gagnant = partie.getGagnant();
 
         if (gagnant != null) {
-            JoueurOthello perdant = gagnant.equals(partieOthello.getJoueurs()[0])
-                    ? partieOthello.getJoueurs()[1]
-                    : partieOthello.getJoueurs()[0];
+            JoueurAbstrait[] joueurs = partie.getJoueurs();
+            JoueurAbstrait perdant = gagnant.equals(joueurs[0]) ? joueurs[1] : joueurs[0];
 
             ihm.afficherMessage("Le gagnant est : " + gagnant.getPseudo() +
                     " avec " + gagnant.getNbPartiesGagnees() +
                     " | Le perdant : " + perdant.getPseudo() +
                     " avec " + perdant.getNbPartiesGagnees());
         } else {
-            ihm.afficherMessage("Ex aequo !");
+            ihm.afficherMessage("Match nul !");
         }
     }
+
 }

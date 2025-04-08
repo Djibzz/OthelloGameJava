@@ -6,7 +6,7 @@ public abstract class ControleurAbstrait {
     protected PartieAbstraite partie;
     protected Ihm ihm = new Ihm();
 
-    public final void jouerPartie() {
+    public  void jouerPartie() {
         boolean rejouer;
         do {
             initialiser();

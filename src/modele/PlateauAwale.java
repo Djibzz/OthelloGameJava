@@ -10,10 +10,10 @@ public class PlateauAwale implements PlateauJeu {
     /**
      * Crée un plateau d'Awalé vide mais prêt à être initialisé.
      *
-     * @param grainesInitiales le nombre de graines par trou au départ
+     *
      */
-    public PlateauAwale(int grainesInitiales) {
-        this.grainesParTrous = grainesInitiales;
+    public PlateauAwale() {
+        this.grainesParTrous = 4;
         this.tableau = new int[2][6];
     }
 
@@ -52,6 +52,25 @@ public class PlateauAwale implements PlateauJeu {
     public void setGraines(int ligne, int colonne, int nbGraines) {
         tableau[ligne][colonne] = nbGraines;
     }
+
+    public boolean peutJouer(int ligne) {
+        for (int col = 0; col < 6; col++) {
+            if (tableau[ligne][col] > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int totalGraines(int ligne) {
+        int total = 0;
+        for (int col = 0; col < 6; col++) {
+            total += tableau[ligne][col];
+        }
+        return total;
+    }
+
+
 
     /**
      * Retourne une copie profonde du tableau.

@@ -8,25 +8,21 @@ public class PartieOthello extends PartieAbstraite {
     private static final String Noir = "⚫";
     private static final String Blanc = "⚪";
 
-    public PartieOthello(JoueurOthello j1, JoueurOthello j2) {
+    public PartieOthello(JoueurAbstrait j1, JoueurAbstrait j2) {
         super(j1, j2);
         this.joueurs = new JoueurAbstrait[]{j1, j2};
         this.plateauOthello = new PlateauOthello(8, 8);
         plateauOthello.InitialisationTableau();
     }
 
-    @Override
-    public JoueurOthello getJoueurCourant() {
-        return (JoueurOthello) joueurCourant;
+    public JoueurAbstrait getJoueurCourant() {
+        return joueurCourant;
     }
 
-    @Override
-    public JoueurOthello[] getJoueurs() {
-        return new JoueurOthello[]{
-                (JoueurOthello) joueurs[0],
-                (JoueurOthello) joueurs[1]
-        };
+    public JoueurAbstrait[] getJoueurs() {
+        return joueurs;
     }
+
 
     @Override
     public PlateauOthello getPlateau() {
@@ -43,7 +39,7 @@ public class PartieOthello extends PartieAbstraite {
         this.joueurCourant = j;
     }
 
-    public JoueurOthello gagnant() {
+    public JoueurOthello getGagnant() {
         if (joueurs[0].getNbPartiesGagnees() < joueurs[1].getNbPartiesGagnees()) {
             return (JoueurOthello) joueurs[1];
         } else if (joueurs[0].getNbPartiesGagnees() > joueurs[1].getNbPartiesGagnees()) {
