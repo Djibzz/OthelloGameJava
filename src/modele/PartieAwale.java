@@ -7,6 +7,7 @@ public class PartieAwale extends PartieAbstraite {
         super(j1, j2);
         this.plateau = new PlateauAwale();
         plateau.InitialisationTableau();
+        this.joueurCourant = j1;
     }
 
     @Override
@@ -16,7 +17,7 @@ public class PartieAwale extends PartieAbstraite {
 
     @Override
     public boolean peutJouer(JoueurAbstrait joueur) {
-        int ligne = (joueur == joueur1) ? 0 : 1;
+        int ligne = (joueur == joueur1) ? 1 : 0;
         return plateau.peutJouer(ligne);
     }
 
@@ -26,7 +27,7 @@ public class PartieAwale extends PartieAbstraite {
             int col = Integer.parseInt(coup) - 1;
             if (col < 0 || col > 5)
                 return false;
-            int ligne = (joueurCourant == joueur1) ? 0 : 1;
+            int ligne = (joueurCourant == joueur1) ? 1 : 0;
             return plateau.getGraines(ligne, col) > 0;
         } catch (NumberFormatException e) {
             return false;
@@ -35,7 +36,7 @@ public class PartieAwale extends PartieAbstraite {
 
 
     public void jouerCoup(String coup) {
-        int ligne = (joueurCourant == joueur1) ? 0 : 1;
+        int ligne = (joueurCourant == joueur1) ? 1 : 0;
         int col = Integer.parseInt(coup) - 1;
         int graines = plateau.getGraines(ligne, col);
         plateau.setGraines(ligne, col, 0);
