@@ -53,17 +53,15 @@ public class PartieAwale extends PartieAbstraite {
                 i = 1 - i;
             }
 
-            // Sauter la case d'origine UNE SEULE FOIS
-            if (!origineIgnoree && i == origineLigne && j == origineCol) {
+            if (origineIgnoree || i != origineLigne || j != origineCol) {
+                plateau.setGraines(i, j, plateau.getGraines(i, j) + 1);
+                graines--;
+            } else {
                 origineIgnoree = true;
-                continue; // graines-- est volontairement ignoré ici
             }
-
-            plateau.setGraines(i, j, plateau.getGraines(i, j) + 1);
-            graines--;
         }
 
-        // Captures dans le camp adverse (si la dernière graine tombe chez l'adversaire)
+        // Captures dans le camp adverse (si la dernière graine tombe chez l’adversaire)
         int campAdverse = (ligne == 0) ? 1 : 0;
         int grainesCapturees = 0;
 
@@ -81,6 +79,7 @@ public class PartieAwale extends PartieAbstraite {
             ((JoueurAwale) joueurCourant).ajouterAuGrenier(grainesCapturees);
         }
     }
+
 
 
 
