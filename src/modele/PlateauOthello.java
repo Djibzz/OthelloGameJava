@@ -28,14 +28,6 @@ public class PlateauOthello implements PlateauJeu {
         this.tableau = tableauCopie;
     }
 
-    public int getTaille2() {
-        return taille2;
-    }
-
-    public int getTaille1() {
-        return taille1;
-    }
-
     /**
      * Constructeur par défaut.
      * Initialise le plateau et le remplit avec des cases vides, puis place les pions de départ.

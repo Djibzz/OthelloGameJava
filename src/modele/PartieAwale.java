@@ -1,8 +1,18 @@
 package modele;
 
+/**
+ * Représente une partie du jeu Awalé.
+ * Gère le plateau, les coups joués, les captures, et la détection de la fin de partie.
+ */
 public class PartieAwale extends PartieAbstraite {
     private PlateauAwale plateau;
 
+    /**
+     * Constructeur d'une partie Awalé.
+     *
+     * @param j1 le premier joueur
+     * @param j2 le second joueur
+     */
     public PartieAwale(JoueurAbstrait j1, JoueurAbstrait j2) {
         super(j1, j2);
         this.plateau = new PlateauAwale();
@@ -10,17 +20,35 @@ public class PartieAwale extends PartieAbstraite {
         this.joueurCourant = j1;
     }
 
+    /**
+     * Indique si la partie est terminée.
+     * La partie est finie si un joueur ne peut plus jouer.
+     *
+     * @return true si la partie est finie, false sinon
+     */
     @Override
     public boolean partieEstFinie() {
         return !plateau.peutJouer(0) || !plateau.peutJouer(1);
     }
 
+    /**
+     * Vérifie si un joueur donné peut jouer.
+     *
+     * @param joueur le joueur à tester
+     * @return true si le joueur peut jouer
+     */
     @Override
     public boolean peutJouer(JoueurAbstrait joueur) {
         int ligne = (joueur == joueur1) ? 1 : 0;
         return plateau.peutJouer(ligne);
     }
 
+    /**
+     * Vérifie si un coup est valide.
+     *
+     * @param coup le coup saisi
+     * @return true si le coup est valide
+     */
     @Override
     public boolean coupValide(String coup) {
         try {
@@ -34,7 +62,12 @@ public class PartieAwale extends PartieAbstraite {
         }
     }
 
-
+    /**
+     * Joue un coup donné en suivant les règles du jeu Awalé.
+     *
+     * @param coup la colonne choisie (1 à 6)
+     */
+    @Override
     public void jouerCoup(String coup) {
         int ligne = (joueurCourant == joueur1) ? 1 : 0;
         int col = Integer.parseInt(coup) - 1;
@@ -61,7 +94,7 @@ public class PartieAwale extends PartieAbstraite {
             }
         }
 
-        // Captures dans le camp adverse (si la dernière graine tombe chez l’adversaire)
+        // Captures dans le camp adverse
         int campAdverse = (ligne == 0) ? 1 : 0;
         int grainesCapturees = 0;
 
@@ -80,15 +113,21 @@ public class PartieAwale extends PartieAbstraite {
         }
     }
 
-
-
-
-
+    /**
+     * Retourne le plateau de jeu Awalé.
+     *
+     * @return le plateau
+     */
     @Override
     public PlateauJeu getPlateau() {
         return plateau;
     }
 
+    /**
+     * Détermine le gagnant de la partie.
+     *
+     * @return le joueur gagnant, ou null en cas d'égalité
+     */
     @Override
     public JoueurAbstrait getGagnant() {
         int score1 = ((JoueurAwale) joueur1).getGrenier();
@@ -103,5 +142,4 @@ public class PartieAwale extends PartieAbstraite {
         }
         return null;
     }
-
 }
